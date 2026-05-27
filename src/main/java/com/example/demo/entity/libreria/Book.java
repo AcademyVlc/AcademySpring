@@ -21,8 +21,9 @@ public class Book {
     @JoinColumn(name="author")
     private Author author;
 
-    @Column(name = "genre")
-    private String genre;
+    @ManyToOne // TODO - Many to one o Many to many? ----> Aggiunto Questo
+    @JoinColumn(name = "genre")
+    private Genre genre;
 
     @Column(name = "price")
     private Double price;

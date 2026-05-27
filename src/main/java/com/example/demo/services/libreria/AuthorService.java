@@ -1,18 +1,16 @@
 package com.example.demo.services.libreria;
 
-import com.example.demo.entity.libreria.Author;
-import com.example.demo.entity.libreria.Book;
-import com.example.demo.repository.libreria.AuthorRepository;
+import com.example.demo.dto.libreria.AuthorDTO;
 
 import java.util.List;
 
 public interface AuthorService {
 
-    List<Author> findAll();
+    List<AuthorDTO> findAll();
 
-    Author findById(Integer id);
+    AuthorDTO findById(Integer id);
 
-    Author save(Author author);
+    AuthorDTO save(AuthorDTO authorDTO);
 
     void deletedById(Integer id);
 }

@@ -1,7 +1,6 @@
 package com.example.demo.controller.libreria;
 
-import com.example.demo.dto.BookDTO;
-import com.example.demo.entity.libreria.Book;
+import com.example.demo.dto.libreria.BookDTO;
 import com.example.demo.services.libreria.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

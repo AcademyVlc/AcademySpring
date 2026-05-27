@@ -1,6 +1,6 @@
-package com.example.demo.mapper;
+package com.example.demo.mapper.libreria;
 
-import com.example.demo.dto.AuthorDTO;
+import com.example.demo.dto.libreria.AuthorDTO;
 import com.example.demo.entity.libreria.Author;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

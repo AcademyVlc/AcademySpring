@@ -1,8 +1,9 @@
 package com.example.demo.controller.libreria;
 
-import com.example.demo.dto.BookResponseDTO;
+import com.example.demo.dto.BookDTO;
 import com.example.demo.entity.libreria.Book;
 import com.example.demo.services.libreria.BookService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -10,40 +11,36 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/books")
+@RequiredArgsConstructor
 public class BookRestController {
 
-    private BookService bookService;
-
-    public BookRestController(BookService bookService) {
-        this.bookService = bookService;
-    }
+    private final BookService bookService;
 
     @GetMapping
-    public List<Book> findAll() {
+    public List<BookDTO> findAll() {
         return bookService.findAll();
     }
 
     @GetMapping("/{id}")
-    public BookResponseDTO findById(@PathVariable Integer id) {
+    public BookDTO findById(@PathVariable Integer id) {
         return bookService.findById(id);
     }
 
     @PostMapping
-    public Book save(@RequestBody Book book) {
+    public BookDTO save(@RequestBody BookDTO bookDTO) {
 // Ignora qualsiasi ID arrivi dal client --> Crea sempre un nuovo record.
-        book.setId(null);
-
-        return bookService.save(book);
+        bookDTO.setId(null);
+        return bookService.save(bookDTO);
     }
 
     @PutMapping("/{id}")
-    public Book update(
+    public BookDTO update(
             @PathVariable Integer id,
-            @RequestBody Book book
+            @RequestBody BookDTO bookDTO
     ) {
 
-        book.setId(id);
-        return bookService.save(book);
+        bookDTO.setId(id);
+        return bookService.save(bookDTO);
     }
 
     @DeleteMapping("/{id}")
@@ -55,24 +52,24 @@ public class BookRestController {
     }
 
     @GetMapping("/genre/{genre}")
-    public List<Book> findByGenre(@PathVariable String genre) {
+    public List<BookDTO> findByGenre(@PathVariable String genre) {
         return bookService.findByGenre(genre);
     }
 
     @GetMapping("/author")
-    public List<Book> findByAuthor(@RequestParam String name) {
+    public List<BookDTO> findByAuthor(@RequestParam String name) {
 
         return bookService.findByAuthorContaining(name);
     }
 
     @GetMapping("/available")
-    public List<Book> availableBooks() {
+    public List<BookDTO> availableBooks() {
 
         return bookService.findByAvailableTrue();
     }
 
     @GetMapping("/cheaper-than")
-    public List<Book> cheaperThan(
+    public List<BookDTO> cheaperThan(
             @RequestParam BigDecimal price) {
 
         return bookService.findBooksCheaperThan(price);

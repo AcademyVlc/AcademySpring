@@ -9,11 +9,11 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BookResponseDTO {
+public class BookDTO {
     // Serve per i dati che io restituisco al Client
     private Integer id;
     private String title;
-    private String author;
+    private Integer author;
     private String genre;
     private BigDecimal price;
     private boolean available;

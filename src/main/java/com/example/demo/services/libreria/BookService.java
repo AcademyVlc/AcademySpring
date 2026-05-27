@@ -1,7 +1,6 @@
 package com.example.demo.services.libreria;
 
-import com.example.demo.dto.BookDTO;
-import com.example.demo.entity.libreria.Book;
+import com.example.demo.dto.libreria.BookDTO;
 
 import java.math.BigDecimal;
 import java.util.List;

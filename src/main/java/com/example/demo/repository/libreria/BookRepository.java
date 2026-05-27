@@ -1,6 +1,5 @@
 package com.example.demo.repository.libreria;
 
-import com.example.demo.dto.BookDTO;
 import com.example.demo.entity.libreria.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

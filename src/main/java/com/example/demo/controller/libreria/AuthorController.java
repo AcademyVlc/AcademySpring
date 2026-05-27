@@ -1,6 +1,6 @@
 package com.example.demo.controller.libreria;
 
-import com.example.demo.entity.libreria.Author;
+import com.example.demo.dto.libreria.AuthorDTO;
 import com.example.demo.services.libreria.AuthorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,26 +15,26 @@ public class AuthorController {
     private final AuthorService authorService;
 
     @GetMapping
-    public List<Author> findAll(){
+    public List<AuthorDTO> findAll(){
         return authorService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Author findById(@PathVariable Integer id){
+    public AuthorDTO findById(@PathVariable Integer id){
         return authorService.findById(id);
     }
 
     @PostMapping
-    public Author save(@RequestBody Author author){
-        author.setId(null);
+    public AuthorDTO save(@RequestBody AuthorDTO authorDTO){
+        authorDTO.setId(null);
         // Ignora qualsiasi ID arrivi dal client --> Crea sempre un nuovo record.
-        return authorService.save(author);
+        return authorService.save(authorDTO);
     }
 
     @PutMapping("/{id}")
-    public Author update(@PathVariable Integer id, @RequestBody Author author){
-        author.setId(id);
-        return authorService.save(author);
+    public AuthorDTO update(@PathVariable Integer id, @RequestBody AuthorDTO authorDTO){
+        authorDTO.setId(id);
+        return authorService.save(authorDTO);
     }
 
     @DeleteMapping("/{id}")

@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AuthorResponseDTO {
+public class AuthorDTO {
     // Serve per i dati che io restituisco al Client
     private Integer id;
     private String firstname;

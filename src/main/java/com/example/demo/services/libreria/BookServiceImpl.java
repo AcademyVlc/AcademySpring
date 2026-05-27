@@ -1,6 +1,6 @@
 package com.example.demo.services.libreria;
 
-import com.example.demo.dto.BookResponseDTO;
+import com.example.demo.dto.BookDTO;
 import com.example.demo.entity.libreria.Book;
 import com.example.demo.mapper.BookMapper;
 import com.example.demo.repository.libreria.BookRepository;
@@ -18,21 +18,28 @@ public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper;
 
     @Override
-    public List<Book> findAll() {
-        return bookRepository.findAll();
+    public List<BookDTO> findAll() {
+        List<Book> books = bookRepository.findAll();
+        return bookMapper.entityToDTO(books);
     }
 
     @Override
-    public BookResponseDTO findById(Integer id) {
+    public BookDTO findById(Integer id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Book not founded with id - " + id));
-        BookResponseDTO responseDTO = bookMapper.entityToDTO(book);
+        BookDTO responseDTO = bookMapper.entityToDTO(book);
         return responseDTO;
     }
 
+    // Save riceve un DTO e lo converte in Entity
     @Override
-    public Book save(Book book) {
-        return bookRepository.save(book);
+    public BookDTO save(BookDTO bookDTO) {
+
+        Book book = bookMapper.dtoToEntity(bookDTO);
+
+        Book savedBook = bookRepository.save(book);
+
+        return bookMapper.entityToDTO(savedBook);
     }
 
     @Override
@@ -41,22 +48,26 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> findByGenre(String genre) {
-        return bookRepository.findByGenre(genre);
+    public List<BookDTO> findByGenre(String genre) {
+        List<Book> books = bookRepository.findByGenre(genre);
+        return bookMapper.entityToDTO(books);
     }
 
     @Override
-    public List<Book> findByAuthorContaining(String author) {
-        return bookRepository.findByAuthorContaining(author);
+    public List<BookDTO> findByAuthorContaining(String author) {
+        List<Book> books = bookRepository.findByAuthorContaining(author);
+        return bookMapper.entityToDTO(books);
     }
 
     @Override
-    public List<Book> findByAvailableTrue() {
-        return bookRepository.findByAvailableTrue();
+    public List<BookDTO> findByAvailableTrue() {
+        List<Book> books = bookRepository.findByAvailableTrue();
+        return bookMapper.entityToDTO(books);
     }
 
     @Override
-    public List<Book> findBooksCheaperThan(BigDecimal price) {
-        return bookRepository.findBooksCheaperThan(price);
+    public List<BookDTO> findBooksCheaperThan(BigDecimal price) {
+        List<Book> books = bookRepository.findBooksCheaperThan(price);
+        return bookMapper.entityToDTO(books);
     }
 }

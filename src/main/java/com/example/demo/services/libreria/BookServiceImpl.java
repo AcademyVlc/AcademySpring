@@ -1,8 +1,8 @@
 package com.example.demo.services.libreria;
 
-import com.example.demo.dto.BookDTO;
+import com.example.demo.dto.libreria.BookDTO;
 import com.example.demo.entity.libreria.Book;
-import com.example.demo.mapper.BookMapper;
+import com.example.demo.mapper.libreria.BookMapper;
 import com.example.demo.repository.libreria.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

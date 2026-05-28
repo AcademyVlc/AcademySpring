@@ -43,6 +43,9 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public void deletedById(Integer id) {
+        if (!authorRepository.existsById(id)) {
+            throw new RuntimeException("AAuthor not founded, with id - " + id);
+        }
         authorRepository.deleteById(id);
     }
 }

@@ -1,9 +1,6 @@
-package com.example.demo.services.libreria;
+package com.example.demo.services.libreria.abstraction;
 
-import com.example.demo.dto.libreria.BookDTO;
 import com.example.demo.dto.libreria.OrderDTO;
-import com.example.demo.entity.libreria.Order;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 

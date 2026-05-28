@@ -13,10 +13,11 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class GenreServiceImpl implements GenreService{
+public class GenreServiceImpl implements GenreService {
 
     private final GenreRepository genreRepository;
     private final GenreMapper genreMapper;
+
     @Override
     public List<GenreDTO> findAll() {
         List<Genre> genres = genreRepository.findAll();
@@ -38,6 +39,9 @@ public class GenreServiceImpl implements GenreService{
 
     @Override
     public void deletedById(Integer id) {
-
+        if (!genreRepository.existsById(id)) {
+            throw new RuntimeException("Genre not founded, with id - " + id);
+        }
+        genreRepository.deleteById(id);
     }
 }

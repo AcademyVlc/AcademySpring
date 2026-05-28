@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "books")
 @Getter
@@ -30,4 +32,7 @@ public class Book {
 
     @Column(name = "available")
     private Boolean available;
+
+    @ManyToMany(mappedBy = "books")
+    private List<Order> orders;
 }

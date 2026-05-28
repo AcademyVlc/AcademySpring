@@ -1,6 +1,8 @@
 package com.example.demo.mapper.libreria;
 
 import com.example.demo.dto.libreria.BookDTO;
+import com.example.demo.dto.libreria.BookRequestDTO;
+import com.example.demo.dto.libreria.BookResponseDTO;
 import com.example.demo.entity.libreria.Book;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -25,12 +27,21 @@ public interface BookMapper {
     Book dtoToEntity(BookDTO bookDTO);
 
     List<BookDTO> entityToDTO(List<Book> books);
-
     List<Book> dtoToEntity(List<BookDTO> booksDTO);
 
+    // MAPPATURA PER BookResponseDTO e BookRequestDTO
+    @Mapping(target = "authorName", source = "author.name")
+    @Mapping(target = "genreName", source = "genre.name")
+    BookResponseDTO entityToResponseDTO(Book book);
+
+    @Mapping(target = "author.id", source = "authorId" )
+    @Mapping(target = "genre.id", source = "genreId")
+    Book requestDTOToEntity(BookRequestDTO bookRequestDTO);
+
+    
 //    default Integer returnVerifiedId(BookDTO bookDTO){
 //        if(bookDTO.getId() == 3){
-//
+// Esempio per la expression dentro al Mapping
 //        }
 //        return 1;
 //    }

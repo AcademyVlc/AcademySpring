@@ -1,15 +1,14 @@
-package com.example.demo.services.libreria;
+package com.example.demo.services.libreria.implementation;
 
-import com.example.demo.dto.libreria.AuthorDTO;
 import com.example.demo.dto.libreria.GenreDTO;
 import com.example.demo.entity.libreria.Genre;
 import com.example.demo.mapper.libreria.GenreMapper;
 import com.example.demo.repository.libreria.GenreRepository;
+import com.example.demo.services.libreria.abstraction.GenreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

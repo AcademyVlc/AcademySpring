@@ -19,7 +19,7 @@ public class Order {
     @Column(name="qty_products")
     private Integer qty;
 
-    @Column(name="total price")
+    @Column(name="total_price")
     private Double totalPrice;
 
     @ManyToMany

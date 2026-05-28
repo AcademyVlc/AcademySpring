@@ -1,7 +1,7 @@
 package com.example.demo.controller.libreria;
 
 import com.example.demo.dto.libreria.BookDTO;
-import com.example.demo.services.libreria.BookService;
+import com.example.demo.services.libreria.abstraction.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -72,5 +72,47 @@ public class BookRestController {
             @RequestParam BigDecimal price) {
 
         return bookService.findBooksCheaperThan(price);
+    }
+
+    // Ricerca per range di prezzo
+    @GetMapping("/price-range")
+    public List<BookDTO> findByPriceRange(@RequestParam BigDecimal min, @RequestParam BigDecimal max){
+        return bookService.findByPriceRange(min, max);
+    }
+
+    // Libri disponibili per genere
+    @GetMapping("/available-by-genre")
+    public List<BookDTO> findAvailableByGenre(@RequestParam String genre){
+        return bookService.findAvailableByGenre(genre);
+    }
+
+    // Ricerca globale per Titolo, Autore o Genere
+    @GetMapping("/search")
+    public List<BookDTO> searchBooks(@RequestParam String keyword){
+        return bookService.searchBooks(keyword);
+    }
+
+    // Libri più costosi di una certa soglia
+    @GetMapping("/expensive-than")
+    public List<BookDTO> expensiveThan(@RequestParam BigDecimal price){
+        return bookService.expensiveThan(price);
+    }
+
+    // Libri per autore e per genere
+    @GetMapping("/author-genre")
+    public List<BookDTO> findByAuthorAndGenre(@RequestParam String author, @RequestParam String genre){
+        return bookService.findByAuthorAndGenre(author, genre);
+    }
+
+    // Libri ordinati per prezzo crescente
+    @GetMapping("/ordered-by-price")
+    public List<BookDTO> findAllOrderByPriceAsc(){
+        return bookService.findAllOrderByPriceAsc();
+    }
+
+    // Conta libri disponibili per genere
+    @GetMapping("/count-available-by-genre")
+    public Long countAvailableByGenre(@RequestParam String genre){
+        return bookService.countAvailableByGenre(genre);
     }
 }

@@ -30,15 +30,17 @@ public interface BookMapper {
     List<Book> dtoToEntity(List<BookDTO> booksDTO);
 
     // MAPPATURA PER BookResponseDTO e BookRequestDTO
-    @Mapping(target = "authorName", source = "author.name")
+    @Mapping(target = "authorName", source = "author.firstname")
     @Mapping(target = "genreName", source = "genre.name")
     BookResponseDTO entityToResponseDTO(Book book);
 
-    @Mapping(target = "author.id", source = "authorId" )
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "orders", ignore = true)
+    @Mapping(target = "author.id", source = "authorId")
     @Mapping(target = "genre.id", source = "genreId")
     Book requestDTOToEntity(BookRequestDTO bookRequestDTO);
 
-    
+
 //    default Integer returnVerifiedId(BookDTO bookDTO){
 //        if(bookDTO.getId() == 3){
 // Esempio per la expression dentro al Mapping

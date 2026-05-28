@@ -16,8 +16,11 @@ public interface AuthorMapper {
     @Mapping(target = "birthdate", source = "birthdate")
     @Mapping(target = "eliminationDate", source = "eliminationDate")
     AuthorDTO entityToDTO(Author author);
+
+    @Mapping(target = "books", ignore = true)
     Author dtoToEntity(AuthorDTO authorDTO);
 
     List<AuthorDTO> entityToDTO(List<Author> authors);
+
     List<Author> dtoToEntity(List<AuthorDTO> authorsDTO);
 }

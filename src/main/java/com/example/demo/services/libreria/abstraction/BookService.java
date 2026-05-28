@@ -1,4 +1,4 @@
-package com.example.demo.services.libreria;
+package com.example.demo.services.libreria.abstraction;
 
 import com.example.demo.dto.libreria.BookDTO;
 
@@ -22,4 +22,18 @@ public interface BookService {
     List<BookDTO> findByAvailableTrue();
 
     List<BookDTO> findBooksCheaperThan(BigDecimal price);
+
+    List<BookDTO> findByPriceRange(BigDecimal min, BigDecimal max);
+
+    List<BookDTO> findAvailableByGenre(String genreName);
+
+    List<BookDTO> searchBooks(String keyword);
+
+    List<BookDTO> expensiveThan(BigDecimal price);
+
+    List<BookDTO> findByAuthorAndGenre(String author, String genre);
+
+    List<BookDTO> findAllOrderByPriceAsc();
+
+    Long countAvailableByGenre(String genre);
 }

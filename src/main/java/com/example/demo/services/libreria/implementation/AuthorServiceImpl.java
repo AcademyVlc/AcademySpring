@@ -1,9 +1,10 @@
-package com.example.demo.services.libreria;
+package com.example.demo.services.libreria.implementation;
 
 import com.example.demo.dto.libreria.AuthorDTO;
 import com.example.demo.entity.libreria.Author;
 import com.example.demo.mapper.libreria.AuthorMapper;
 import com.example.demo.repository.libreria.AuthorRepository;
+import com.example.demo.services.libreria.abstraction.AuthorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

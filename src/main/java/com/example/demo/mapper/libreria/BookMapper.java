@@ -1,8 +1,8 @@
 package com.example.demo.mapper.libreria;
 
 import com.example.demo.dto.libreria.BookDTO;
-import com.example.demo.dto.libreria.BookRequestDTO;
-import com.example.demo.dto.libreria.BookResponseDTO;
+import com.example.demo.dto.libreria.requestdto.BookRequestDTO;
+import com.example.demo.dto.libreria.responsedto.BookResponseDTO;
 import com.example.demo.entity.libreria.Book;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

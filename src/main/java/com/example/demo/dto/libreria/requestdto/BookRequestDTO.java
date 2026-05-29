@@ -1,4 +1,4 @@
-package com.example.demo.dto.libreria;
+package com.example.demo.dto.libreria.requestdto;
 
 import lombok.*;
 

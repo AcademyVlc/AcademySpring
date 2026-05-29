@@ -1,7 +1,7 @@
 package com.example.demo.services.ristorante.abstraction;
 
-import com.example.demo.dto.ristorante.CategoryRequestDTO;
-import com.example.demo.dto.ristorante.CategoryResponseDTO;
+import com.example.demo.dto.ristorante.requestdto.CategoryRequestDTO;
+import com.example.demo.dto.ristorante.responsedto.CategoryResponseDTO;
 
 import java.util.List;
 

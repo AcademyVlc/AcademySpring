@@ -1,7 +1,7 @@
 package com.example.demo.services.ristorante.implementation;
 
-import com.example.demo.dto.ristorante.CategoryRequestDTO;
-import com.example.demo.dto.ristorante.CategoryResponseDTO;
+import com.example.demo.dto.ristorante.requestdto.CategoryRequestDTO;
+import com.example.demo.dto.ristorante.responsedto.CategoryResponseDTO;
 import com.example.demo.entity.ristorante.Category;
 import com.example.demo.mapper.ristorante.CategoryMapper;
 import com.example.demo.repository.ristorante.CategoryRepository;

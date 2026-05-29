@@ -1,7 +1,7 @@
 package com.example.demo.mapper.ristorante;
 
-import com.example.demo.dto.ristorante.CategoryRequestDTO;
-import com.example.demo.dto.ristorante.CategoryResponseDTO;
+import com.example.demo.dto.ristorante.requestdto.CategoryRequestDTO;
+import com.example.demo.dto.ristorante.responsedto.CategoryResponseDTO;
 import com.example.demo.entity.ristorante.Category;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

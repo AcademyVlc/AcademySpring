@@ -2,7 +2,7 @@ package com.example.demo.controller.ristorante;
 
 import com.example.demo.dto.ristorante.CategoryRequestDTO;
 import com.example.demo.dto.ristorante.CategoryResponseDTO;
-import com.example.demo.services.ristorante.CategoryService;
+import com.example.demo.services.ristorante.abstraction.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

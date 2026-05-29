@@ -7,9 +7,10 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ChefResponseDTO {
+public class CustomerResponseDTO {
 
+    private Integer id;
     private String name;
+    private String email;
 
-    private String specialization;
 }

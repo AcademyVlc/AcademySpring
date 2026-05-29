@@ -5,6 +5,7 @@ import com.example.demo.dto.ristorante.responsedto.ChefResponseDTO;
 import com.example.demo.entity.ristorante.Chef;
 import com.example.demo.mapper.ristorante.ChefMapper;
 import com.example.demo.repository.ristorante.ChefRepository;
+import com.example.demo.services.exceptions.ChefNotFoundedException;
 import com.example.demo.services.ristorante.abstraction.ChefService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,7 @@ public class ChefServiceImpl implements ChefService {
     public String deletedById(Integer id) {
 
         if (!chefRepository.existsById(id)) {
-            throw new RuntimeException("Chef not founded with id - " + id);
+            throw new ChefNotFoundedException("Chef not founded with id - " + id);
         }
         chefRepository.deleteById(id);
         return "Deleted chef with id - " + id;

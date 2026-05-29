@@ -17,7 +17,6 @@ public interface CategoryMapper {
     List<CategoryResponseDTO> entityToResponseDTO(List<Category> categories);
 
     @Mapping(target = "name", source = "name")
-    @Mapping(target = "id", source = "id")
     @Mapping(target = "dishes", ignore = true)
     Category requestDTOToEntity(CategoryRequestDTO categoryRequestDTO);
     List<Category> requestDTOToEntity(List<CategoryRequestDTO> categoryRequestDTO);

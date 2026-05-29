@@ -16,29 +16,27 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
-    List<CategoryResponseDTO> findAll(){
+    List<CategoryResponseDTO> findAll() {
         return categoryService.findAll();
     }
 
     @GetMapping("/{id}")
-    public CategoryResponseDTO findById(@PathVariable Integer id){
+    public CategoryResponseDTO findById(@PathVariable Integer id) {
         return categoryService.findById(id);
     }
 
     @PostMapping
-    public CategoryResponseDTO save(@RequestBody CategoryRequestDTO categoryRequestDTO){
-        categoryRequestDTO.setId(null);
+    public CategoryResponseDTO save(@RequestBody CategoryRequestDTO categoryRequestDTO) {
         return categoryService.save(categoryRequestDTO);
     }
 
     @PutMapping("/{id}")
-    public CategoryResponseDTO update(@PathVariable Integer id, @RequestBody CategoryRequestDTO categoryRequestDTO){
-        categoryRequestDTO.setId(id);
+    public CategoryResponseDTO update(@PathVariable Integer id, @RequestBody CategoryRequestDTO categoryRequestDTO) {
         return categoryService.save(categoryRequestDTO);
     }
 
     @DeleteMapping("/{id}")
-    public String deletedById(@PathVariable Integer id){
+    public String deletedById(@PathVariable Integer id) {
         return categoryService.deletedById(id);
     }
 }

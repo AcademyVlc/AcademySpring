@@ -4,10 +4,12 @@ import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class CategoryRequestDTO {
+public class ChefRequestDTO {
+
 
     private String name;
+    private String specialization;
 }

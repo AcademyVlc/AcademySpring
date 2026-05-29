@@ -22,6 +22,7 @@ public class Chef {
     @Column(name = "specialization")
     private String specialization;
 
-    @OneToMany(mappedBy = "chef") // "La relazione è già gestita dal campo chef dentro Dish" --> dentro la classe Dish infatti hai un campo Chef chef
+    @OneToMany(mappedBy = "chef")
+    // "La relazione è già gestita dal campo chef dentro Dish" --> dentro la classe Dish infatti hai un campo Chef chef
     private List<Dish> dishes;
 }

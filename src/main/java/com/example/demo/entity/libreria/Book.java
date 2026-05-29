@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -32,6 +33,12 @@ public class Book {
 
     @Column(name = "available")
     private Boolean available;
+
+    @Column(name="elimination_date")
+    private LocalDate eliminationDate;
+
+    @Column(name="update_date")
+    private LocalDate updateDate;
 
     @ManyToMany(mappedBy = "books")
     private List<Order> orders;

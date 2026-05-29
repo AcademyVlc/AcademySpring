@@ -29,6 +29,9 @@ public class Author {
     @Column(name="elimination_date")
     private LocalDate eliminationDate;
 
+    @Column(name="update_date")
+    private LocalDate updateDate;
+
     @OneToMany(mappedBy = "author") // proprietà della classe che rappresenta la corrispondenza
     private List<Book> books;
 }

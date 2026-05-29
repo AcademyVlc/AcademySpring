@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -21,6 +22,12 @@ public class Order {
 
     @Column(name="total_price")
     private Double totalPrice;
+
+    @Column(name="elimination_date")
+    private LocalDate eliminationDate;
+
+    @Column(name="update_date")
+    private LocalDate updateDate;
 
     @ManyToMany
     @JoinTable(

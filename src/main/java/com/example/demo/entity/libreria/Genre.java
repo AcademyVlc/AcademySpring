@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -18,6 +19,12 @@ public class Genre {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name="elimination_date")
+    private LocalDate eliminationDate;
+
+    @Column(name="update_date")
+    private LocalDate updateDate;
 
     @OneToMany(mappedBy = "genre") // proprietà della classe che rappresenta la corrispondenza --> Un genere può avere più libri TODO - AGGIUNTO QUESTO
     private List<Book> books;

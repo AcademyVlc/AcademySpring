@@ -1,10 +1,11 @@
-package com.example.demo.services.ristorante;
+package com.example.demo.services.ristorante.implementation;
 
 import com.example.demo.dto.ristorante.CategoryRequestDTO;
 import com.example.demo.dto.ristorante.CategoryResponseDTO;
 import com.example.demo.entity.ristorante.Category;
 import com.example.demo.mapper.ristorante.CategoryMapper;
 import com.example.demo.repository.ristorante.CategoryRepository;
+import com.example.demo.services.ristorante.abstraction.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

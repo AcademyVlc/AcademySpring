@@ -1,6 +1,8 @@
 package com.example.demo.services.libreria.implementation;
 
 import com.example.demo.dto.libreria.OrderDTO;
+import com.example.demo.dto.libreria.requestdto.OrderRequestDTO;
+import com.example.demo.dto.libreria.responsedto.OrderResponseDTO;
 import com.example.demo.entity.libreria.Order;
 import com.example.demo.mapper.libreria.OrderMapper;
 import com.example.demo.repository.libreria.OrderRepository;
@@ -18,24 +20,24 @@ public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
 
     @Override
-    public List<OrderDTO> findAll() {
+    public List<OrderResponseDTO> findAll() {
         List<Order> orders = orderRepository.findAll();
-        return orderMapper.entityToDTO(orders);
+        return orderMapper.entityToResponseDTO(orders);
     }
 
     @Override
-    public OrderDTO findById(Integer id) {
+    public OrderResponseDTO findById(Integer id) {
         Order order = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not founded with id - " + id));
-        return orderMapper.entityToDto(order);
+        return orderMapper.entityToResponseDTO(order);
     }
 
     @Override
-    public OrderDTO save(OrderDTO orderDTO) {
-        Order order = orderMapper.dtoToEntity(orderDTO);
+    public OrderResponseDTO save(OrderRequestDTO orderRequestDTO) {
+        Order order = orderMapper.requestDTOToEntity(orderRequestDTO);
 
         Order savedOrder = orderRepository.save(order);
 
-        return orderMapper.entityToDto(savedOrder);
+        return orderMapper.entityToResponseDTO(savedOrder);
     }
 
     @Override

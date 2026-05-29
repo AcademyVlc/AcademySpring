@@ -19,8 +19,8 @@ public interface AuthorMapper {
     AuthorResponseDTO entityToResponseDTO(Author author);
     List<AuthorResponseDTO> entityToResponseDTO(List<Author> authors);
 
-    @Mapping(target = "books", ignore = true)
-    @Mapping(target = "author.id", ignore = true)
+//    @Mapping(target = "books", ignore = true)
+//    @Mapping(target = "author.id", ignore = true)
     Author requestDTOToEntity(AuthorRequestDTO authorRequestDTO);
 //    List<Author> entityToResponseDTO(List<AuthorResponseDTO> authors);
 }

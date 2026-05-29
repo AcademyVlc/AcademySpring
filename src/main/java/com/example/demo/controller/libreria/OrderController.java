@@ -1,6 +1,8 @@
 package com.example.demo.controller.libreria;
 
 import com.example.demo.dto.libreria.OrderDTO;
+import com.example.demo.dto.libreria.requestdto.OrderRequestDTO;
+import com.example.demo.dto.libreria.responsedto.OrderResponseDTO;
 import com.example.demo.services.libreria.abstraction.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,25 +17,24 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping
-    public List<OrderDTO> findAll(){
+    public List<OrderResponseDTO> findAll(){
         return orderService.findAll();
     }
 
     @GetMapping("/{id}")
-    public OrderDTO findById(@PathVariable Integer id){
+    public OrderResponseDTO findById(@PathVariable Integer id){
         return orderService.findById(id);
     }
 
     @PostMapping
-    public OrderDTO save(@RequestBody OrderDTO orderDTO){
-        orderDTO.setId(null);
-        return orderService.save(orderDTO);
+    public OrderResponseDTO save(@RequestBody OrderRequestDTO orderRequestDTO){
+        return orderService.save(orderRequestDTO);
     }
 
     @PutMapping("/{id}")
-    public OrderDTO update(@PathVariable Integer id, @RequestBody OrderDTO orderDTO){
-        orderDTO.setId(id);
-        return orderService.save(orderDTO);
+    public OrderResponseDTO update(@PathVariable Integer id, @RequestBody OrderRequestDTO orderRequestDTO){
+        orderRequestDTO.setId(id);
+        return orderService.save(orderRequestDTO);
     }
 
     @DeleteMapping("/{id}")

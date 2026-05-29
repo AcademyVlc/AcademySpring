@@ -1,15 +1,17 @@
 package com.example.demo.services.libreria.abstraction;
 
 import com.example.demo.dto.libreria.GenreDTO;
+import com.example.demo.dto.libreria.requestdto.GenreRequestDTO;
+import com.example.demo.dto.libreria.responsedto.GenreResponseDTO;
 
 import java.util.List;
 
 public interface GenreService {
-    List<GenreDTO> findAll();
+    List<GenreResponseDTO> findAll();
 
-    GenreDTO findById(Integer id);
+    GenreResponseDTO findById(Integer id);
 
-    GenreDTO save(GenreDTO genreDTO);
+    GenreResponseDTO save(GenreRequestDTO genreRequestDTO);
 
     void deletedById(Integer id);
 }

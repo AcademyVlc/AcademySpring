@@ -1,6 +1,8 @@
 package com.example.demo.services.libreria.implementation;
 
 import com.example.demo.dto.libreria.GenreDTO;
+import com.example.demo.dto.libreria.requestdto.GenreRequestDTO;
+import com.example.demo.dto.libreria.responsedto.GenreResponseDTO;
 import com.example.demo.entity.libreria.Genre;
 import com.example.demo.mapper.libreria.GenreMapper;
 import com.example.demo.repository.libreria.GenreRepository;
@@ -18,22 +20,22 @@ public class GenreServiceImpl implements GenreService {
     private final GenreMapper genreMapper;
 
     @Override
-    public List<GenreDTO> findAll() {
+    public List<GenreResponseDTO> findAll() {
         List<Genre> genres = genreRepository.findAll();
-        return genreMapper.entityToDTO(genres);
+        return genreMapper.entityToResponseDTO(genres);
     }
 
     @Override
-    public GenreDTO findById(Integer id) {
+    public GenreResponseDTO findById(Integer id) {
         Genre genre = genreRepository.findById(id).orElseThrow(() -> new RuntimeException("Genre not founded with id - " + id));
-        return genreMapper.entityToDTO(genre);
+        return genreMapper.entityToResponseDTO(genre);
     }
 
     @Override
-    public GenreDTO save(GenreDTO genreDTO) {
-        Genre genre = genreMapper.dtoToEntity(genreDTO);
+    public GenreResponseDTO save(GenreRequestDTO genreRequestDTO) {
+        Genre genre = genreMapper.requestDTOToEntity(genreRequestDTO);
         Genre savedGenre = genreRepository.save(genre);
-        return genreMapper.entityToDTO(savedGenre);
+        return genreMapper.entityToResponseDTO(savedGenre);
     }
 
     @Override

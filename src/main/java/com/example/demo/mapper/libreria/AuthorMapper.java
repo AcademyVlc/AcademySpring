@@ -1,7 +1,12 @@
 package com.example.demo.mapper.libreria;
 
 import com.example.demo.dto.libreria.AuthorDTO;
+import com.example.demo.dto.libreria.requestdto.AuthorRequestDTO;
+import com.example.demo.dto.libreria.requestdto.BookRequestDTO;
+import com.example.demo.dto.libreria.responsedto.AuthorResponseDTO;
+import com.example.demo.dto.libreria.responsedto.BookResponseDTO;
 import com.example.demo.entity.libreria.Author;
+import com.example.demo.entity.libreria.Book;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -10,17 +15,12 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface AuthorMapper {
 
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "firstname", source = "firstname")
-    @Mapping(target = "lastname", source = "lastname")
-    @Mapping(target = "birthdate", source = "birthdate")
-    @Mapping(target = "eliminationDate", source = "eliminationDate")
-    AuthorDTO entityToDTO(Author author);
+    // MAPPATURA PER BookResponseDTO e BookRequestDTO
+    AuthorResponseDTO entityToResponseDTO(Author author);
+    List<AuthorResponseDTO> entityToResponseDTO(List<Author> authors);
 
     @Mapping(target = "books", ignore = true)
-    Author dtoToEntity(AuthorDTO authorDTO);
-
-    List<AuthorDTO> entityToDTO(List<Author> authors);
-
-    List<Author> dtoToEntity(List<AuthorDTO> authorsDTO);
+    @Mapping(target = "author.id", ignore = true)
+    Author requestDTOToEntity(AuthorRequestDTO authorRequestDTO);
+//    List<Author> entityToResponseDTO(List<AuthorResponseDTO> authors);
 }

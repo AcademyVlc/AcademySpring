@@ -1,6 +1,8 @@
 package com.example.demo.services.libreria.implementation;
 
 import com.example.demo.dto.libreria.AuthorDTO;
+import com.example.demo.dto.libreria.requestdto.AuthorRequestDTO;
+import com.example.demo.dto.libreria.responsedto.AuthorResponseDTO;
 import com.example.demo.entity.libreria.Author;
 import com.example.demo.mapper.libreria.AuthorMapper;
 import com.example.demo.repository.libreria.AuthorRepository;
@@ -19,27 +21,27 @@ public class AuthorServiceImpl implements AuthorService {
 
 
     @Override
-    public List<AuthorDTO> findAll() {
+    public List<AuthorResponseDTO> findAll() {
         List<Author> authors = authorRepository.findAll();
-        return authorMapper.entityToDTO(authors);
+        return authorMapper.entityToResponseDTO(authors);
     }
 
     @Override
-    public AuthorDTO findById(Integer id) {
+    public AuthorResponseDTO findById(Integer id) {
         Author author = authorRepository.findById(id)
                 .orElseThrow(
                         () -> new RuntimeException("Author not foundend with id - " + id)
                 );
-        return authorMapper.entityToDTO(author);
+        return authorMapper.entityToResponseDTO(author);
     }
 
     @Override
-    public AuthorDTO save(AuthorDTO authorDTO) {
-        Author author = authorMapper.dtoToEntity(authorDTO);
+    public AuthorResponseDTO save(AuthorRequestDTO authorRequestDTO) {
+        Author author = authorMapper.requestDTOToEntity(authorRequestDTO);
 
         Author savedAuthor = authorRepository.save(author);
 
-        return authorMapper.entityToDTO(savedAuthor);
+        return authorMapper.entityToResponseDTO(savedAuthor);
     }
 
     @Override

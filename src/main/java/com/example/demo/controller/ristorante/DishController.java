@@ -39,4 +39,22 @@ public class DishController {
     public void deletedByID(@PathVariable Integer id) {
         dishService.deletedById(id);
     }
+
+    // Cerca piatti disponibili
+    @GetMapping("/find-available-dishes")
+    public List<DishResponseDTO> findAvailableDish(){
+        return dishService.findAvailableDish();
+    }
+
+    // cerca piatti sotto un certo prezzo
+    @GetMapping ("/find-under-specific-price-dish")
+    public List<DishResponseDTO> findUnderSpecificPriceDish(@RequestParam Double price){
+        return dishService.findUnderSpecificPriceDish(price);
+    }
+
+    // cerca piatti per categoria
+    @GetMapping("/find-dish-by-category-name")
+    public List<DishResponseDTO> findDishByCategoryName(@RequestParam String categoryName){
+        return dishService.findDishByCategoryName(categoryName);
+    }
 }

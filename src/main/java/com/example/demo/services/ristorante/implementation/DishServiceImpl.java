@@ -60,4 +60,23 @@ public class DishServiceImpl implements DishService {
         dishRepository.deleteById(id);
         return "Deleted Dish with id - " + id;
     }
+
+    @Override
+    public List<DishResponseDTO> findAvailableDish() {
+        List<Dish> availableDish = dishRepository.findAvailableDish();
+        return dishMapper.entityToResponseDTO(availableDish);
+    }
+
+    @Override
+    public List<DishResponseDTO> findUnderSpecificPriceDish(Double price) {
+        List<Dish> dishes = dishRepository.findUnderSpecificPriceDish(price);
+        return dishMapper.entityToResponseDTO(dishes);
+    }
+
+    @Override
+    public List<DishResponseDTO> findDishByCategoryName(String categoryName) {
+        List<Dish> dishes = dishRepository.findDishByCategoryName(categoryName);
+        return dishMapper.entityToResponseDTO(dishes);
+    }
+
 }

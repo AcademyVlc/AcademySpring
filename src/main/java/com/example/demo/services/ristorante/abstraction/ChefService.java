@@ -13,5 +13,7 @@ public interface ChefService {
 
     ChefResponseDTO save(ChefRequestDTO chefRequestDTO);
 
+    ChefResponseDTO update(Integer id, ChefRequestDTO chefRequestDTO);
+
     String deletedById(Integer id);
 }

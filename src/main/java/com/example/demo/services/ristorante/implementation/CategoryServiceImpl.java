@@ -41,6 +41,17 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public CategoryResponseDTO update(Integer id, CategoryRequestDTO categoryRequestDTO) {
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category not founded"));
+
+        category.setName(categoryRequestDTO.getName());
+
+        Category updatedCategory = categoryRepository.save(category);
+
+        return categoryMapper.entityToResponseDTO(updatedCategory);
+    }
+
+    @Override
     public String deletedById(Integer id) {
         if (!categoryRepository.existsById(id)) {
             throw new RuntimeException("Category ot founded with id - " + id);

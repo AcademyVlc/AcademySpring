@@ -13,5 +13,7 @@ public interface CategoryService {
 
     CategoryResponseDTO save(CategoryRequestDTO book);
 
+    CategoryResponseDTO update(Integer id, CategoryRequestDTO categoryRequestDTO);
+
     String deletedById(Integer id);
 }

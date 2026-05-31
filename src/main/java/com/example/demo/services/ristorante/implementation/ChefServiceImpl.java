@@ -1,8 +1,11 @@
 package com.example.demo.services.ristorante.implementation;
 
 import com.example.demo.dto.ristorante.requestdto.ChefRequestDTO;
+import com.example.demo.dto.ristorante.requestdto.CustomerRequestDTO;
 import com.example.demo.dto.ristorante.responsedto.ChefResponseDTO;
+import com.example.demo.dto.ristorante.responsedto.CustomerResponseDTO;
 import com.example.demo.entity.ristorante.Chef;
+import com.example.demo.entity.ristorante.Customer;
 import com.example.demo.mapper.ristorante.ChefMapper;
 import com.example.demo.repository.ristorante.ChefRepository;
 import com.example.demo.services.exceptions.ChefNotFoundedException;
@@ -39,6 +42,20 @@ public class ChefServiceImpl implements ChefService {
         Chef savedChef = chefRepository.save(chef);
 
         return chefMapper.entityToResponseDTO(savedChef);
+    }
+
+    @Override
+    public ChefResponseDTO update(Integer id, ChefRequestDTO chefRequestDTO) {
+
+        Chef chef = chefRepository.findById(id).orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        chef.setName(chefRequestDTO.getName());
+        chef.setSpecialization(chef.getSpecialization());
+        // altri campi...
+
+        Chef updatedChef = chefRepository.save(chef);
+
+        return chefMapper.entityToResponseDTO(updatedChef);
     }
 
     @Override

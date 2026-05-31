@@ -32,7 +32,7 @@ public class ChefController {
 
     @PutMapping("/{id}")
     public ChefResponseDTO update(@PathVariable Integer id, @RequestBody ChefRequestDTO chefRequestDTO) {
-        return chefService.save(chefRequestDTO);
+        return chefService.update(id, chefRequestDTO);
     }
 
     @DeleteMapping("/{id}")

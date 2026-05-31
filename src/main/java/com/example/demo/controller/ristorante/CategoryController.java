@@ -32,7 +32,7 @@ public class CategoryController {
 
     @PutMapping("/{id}")
     public CategoryResponseDTO update(@PathVariable Integer id, @RequestBody CategoryRequestDTO categoryRequestDTO) {
-        return categoryService.save(categoryRequestDTO);
+        return categoryService.update(id ,categoryRequestDTO);
     }
 
     @DeleteMapping("/{id}")

@@ -79,4 +79,34 @@ public class DishServiceImpl implements DishService {
         return dishMapper.entityToResponseDTO(dishes);
     }
 
+    @Override
+    public List<DishResponseDTO> findDishByChefName(String chefName) {
+        List<Dish> dishes = dishRepository.findDishByChefName(chefName);
+        return dishMapper.entityToResponseDTO(dishes);
+    }
+
+    @Override
+    public List<DishResponseDTO> findAvailableDishByCategoryName(String categoryName) {
+        List<Dish> dishes = dishRepository.findAvailableDishByCategoryName(categoryName);
+        return dishMapper.entityToResponseDTO(dishes);
+    }
+
+    @Override
+    public List<DishResponseDTO> findDishByRangePrice(Double min, Double max) {
+        List<Dish> dishes = dishRepository.findDishByRangePrice(min, max);
+        return dishMapper.entityToResponseDTO(dishes);
+    }
+
+    @Override
+    public List<DishResponseDTO> globalSearch(String name) {
+        List<Dish> dishes = dishRepository.globalSearch(name);
+        return dishMapper.entityToResponseDTO(dishes);
+    }
+
+    @Override
+    public List<Object[]> countDishGroupingByCategory() {
+        List<Object[]> dishes = dishRepository.countDishGroupingByCategory();
+        return dishes;
+    }
+
 }

@@ -4,6 +4,7 @@ import com.example.demo.dto.ristorante.requestdto.CustomerRequestDTO;
 import com.example.demo.dto.ristorante.responsedto.CustomerResponseDTO;
 import com.example.demo.services.ristorante.abstraction.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,27 +17,32 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping
-    public List<CustomerResponseDTO> findAll() {
-        return customerService.findAll();
+    public ResponseEntity<List<CustomerResponseDTO>> findAll() {
+        List<CustomerResponseDTO> customers = customerService.findAll();
+        return ResponseEntity.ok(customers);
     }
 
     @GetMapping("/{id}")
-    public CustomerResponseDTO findById(@PathVariable Integer id) {
-        return customerService.findById(id);
+    public ResponseEntity<CustomerResponseDTO> findById(@PathVariable Integer id) {
+        CustomerResponseDTO customer = customerService.findById(id);
+        return ResponseEntity.ok(customer);
     }
 
     @PostMapping
-    public CustomerResponseDTO save(@RequestBody CustomerRequestDTO customerRequestDTO) {
-        return customerService.save(customerRequestDTO);
+    public ResponseEntity<CustomerResponseDTO> save(@RequestBody CustomerRequestDTO customerRequestDTO) {
+        CustomerResponseDTO customer = customerService.save(customerRequestDTO);
+        return ResponseEntity.ok(customer);
     }
 
     @PutMapping("/{id}")
-    public CustomerResponseDTO update(@PathVariable Integer id, @RequestBody CustomerRequestDTO customerRequestDTO) {
-        return customerService.update(id, customerRequestDTO);
+    public ResponseEntity<CustomerResponseDTO> update(@PathVariable Integer id, @RequestBody CustomerRequestDTO customerRequestDTO) {
+        CustomerResponseDTO customer = customerService.update(id, customerRequestDTO);
+        return ResponseEntity.ok(customer);
     }
 
     @DeleteMapping("/{id}")
-    public void deletedById(@PathVariable Integer id) {
+    public ResponseEntity<Void> deletedById(@PathVariable Integer id) {
         customerService.deletedById(id);
+        return ResponseEntity.noContent().build();
     }
 }

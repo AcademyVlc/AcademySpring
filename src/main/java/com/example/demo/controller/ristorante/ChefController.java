@@ -4,6 +4,7 @@ import com.example.demo.dto.ristorante.requestdto.ChefRequestDTO;
 import com.example.demo.dto.ristorante.responsedto.ChefResponseDTO;
 import com.example.demo.services.ristorante.abstraction.ChefService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,27 +17,32 @@ public class ChefController {
     private final ChefService chefService;
 
     @GetMapping
-    public List<ChefResponseDTO> findAll() {
-        return chefService.findAll();
+    public ResponseEntity<List<ChefResponseDTO>> findAll() {
+        List<ChefResponseDTO> chefs = chefService.findAll();
+        return ResponseEntity.ok(chefs);
     }
 
     @GetMapping("/{id}")
-    public ChefResponseDTO findById(@PathVariable Integer id) {
-        return chefService.findById(id);
+    public ResponseEntity<ChefResponseDTO> findById(@PathVariable Integer id) {
+        ChefResponseDTO chef = chefService.findById(id);
+        return ResponseEntity.ok(chef);
     }
 
     @PostMapping
-    public ChefResponseDTO save(@RequestBody ChefRequestDTO chefRequestDTO) {
-        return chefService.save(chefRequestDTO);
+    public ResponseEntity<ChefResponseDTO> save(@RequestBody ChefRequestDTO chefRequestDTO) {
+        ChefResponseDTO chef = chefService.save(chefRequestDTO);
+        return ResponseEntity.ok(chef);
     }
 
     @PutMapping("/{id}")
-    public ChefResponseDTO update(@PathVariable Integer id, @RequestBody ChefRequestDTO chefRequestDTO) {
-        return chefService.update(id, chefRequestDTO);
+    public ResponseEntity<ChefResponseDTO> update(@PathVariable Integer id, @RequestBody ChefRequestDTO chefRequestDTO) {
+        ChefResponseDTO chef = chefService.update(id, chefRequestDTO);
+        return ResponseEntity.ok(chef);
     }
 
     @DeleteMapping("/{id}")
-    public void deletedById(@PathVariable Integer id) {
+    public ResponseEntity<Void> deletedById(@PathVariable Integer id) {
         chefService.deletedById(id);
+        return ResponseEntity.noContent().build();
     }
 }

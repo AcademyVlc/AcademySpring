@@ -18,30 +18,31 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<List<CategoryResponseDTO>> findAll() {
-        List<CategoryResponseDTO> dishes = categoryService.findAll();
-        return ResponseEntity.ok(dishes);
+        List<CategoryResponseDTO> categories = categoryService.findAll();
+        return ResponseEntity.ok( categories);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoryResponseDTO> findById(@PathVariable Integer id) {
-        CategoryResponseDTO dish = categoryService.findById(id);
-        return ResponseEntity.ok(dish);
+        CategoryResponseDTO category = categoryService.findById(id);
+        return ResponseEntity.ok(category);
     }
 
     @PostMapping
     public ResponseEntity<CategoryResponseDTO> save(@RequestBody CategoryRequestDTO categoryRequestDTO) {
-        CategoryResponseDTO dish = categoryService.save(categoryRequestDTO);
-        return ResponseEntity.ok(dish);
+        CategoryResponseDTO category = categoryService.save(categoryRequestDTO);
+        return ResponseEntity.ok(category);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CategoryResponseDTO> update(@PathVariable Integer id, @RequestBody CategoryRequestDTO categoryRequestDTO) {
         CategoryResponseDTO category = categoryService.update(id, categoryRequestDTO);
-        return category;
+        return ResponseEntity.ok(category);
     }
 
     @DeleteMapping("/{id}")
-    public String deletedById(@PathVariable Integer id) {
-        return categoryService.deletedById(id);
+    public ResponseEntity<Void> deletedById(@PathVariable Integer id) {
+        categoryService.deletedById(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.services.ristorante.implementation;
 
 import com.example.demo.dto.ristorante.requestdto.DishRequestDTO;
+import com.example.demo.dto.ristorante.responsedto.CategoryCountDTO;
 import com.example.demo.dto.ristorante.responsedto.DishResponseDTO;
 import com.example.demo.entity.ristorante.Dish;
 import com.example.demo.mapper.ristorante.DishMapper;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +28,7 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public DishResponseDTO findById(Integer id) {
-        Dish dish = dishRepository.findById(id).orElseThrow(() -> new RuntimeException("Dish not founded"));
+        Dish dish = dishRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Dish not founded"));
         return dishMapper.entityToResponseDTO(dish);
     }
 
@@ -104,9 +106,14 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public List<Object[]> countDishGroupingByCategory() {
-        List<Object[]> dishes = dishRepository.countDishGroupingByCategory();
-        return dishes;
+    public List<CategoryCountDTO> countDishGroupingByCategory() {
+        return dishRepository.countDishGroupingByCategory()
+                .stream()
+                .map(row -> new CategoryCountDTO(
+                        (String) row[0],
+                        (Long) row[1]
+                ))
+                .toList();
     }
 
 }

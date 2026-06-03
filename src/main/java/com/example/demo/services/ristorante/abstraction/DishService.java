@@ -1,6 +1,7 @@
 package com.example.demo.services.ristorante.abstraction;
 
 import com.example.demo.dto.ristorante.requestdto.DishRequestDTO;
+import com.example.demo.dto.ristorante.responsedto.CategoryCountDTO;
 import com.example.demo.dto.ristorante.responsedto.DishResponseDTO;
 import com.example.demo.entity.ristorante.Dish;
 import org.springframework.data.repository.query.Param;
@@ -33,5 +34,5 @@ public interface DishService {
 
     List<DishResponseDTO> globalSearch(String name);
 
-    List<Object[]> countDishGroupingByCategory();
+    List<CategoryCountDTO> countDishGroupingByCategory();
 }

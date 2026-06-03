@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DishResponseDTO {
+public class DishResponseDTO extends DishResponseWrapperDTO{
 
     private Integer id;
 

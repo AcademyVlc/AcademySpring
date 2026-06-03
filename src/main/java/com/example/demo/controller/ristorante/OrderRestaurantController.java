@@ -18,26 +18,26 @@ public class OrderRestaurantController {
 
     @GetMapping
     public ResponseEntity<List<OrderRestaurantResponseDTO>> findAll() {
-        List<OrderRestaurantResponseDTO> dishes = orderRestaurantService.findAll();
-        return ResponseEntity.ok(dishes);
+        List<OrderRestaurantResponseDTO> orders = orderRestaurantService.findAll();
+        return ResponseEntity.ok(orders);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<OrderRestaurantResponseDTO> findById(@PathVariable Integer id) {
-        OrderRestaurantResponseDTO dish = orderRestaurantService.findById(id);
-        return ResponseEntity.ok(dish);
+        OrderRestaurantResponseDTO order = orderRestaurantService.findById(id);
+        return ResponseEntity.ok(order);
     }
 
     @PostMapping
     public ResponseEntity<OrderRestaurantResponseDTO> save(@RequestBody OrderRestaurantRequestDTO orderRestaurantRequestDTO) {
-        OrderRestaurantResponseDTO dish = orderRestaurantService.save(orderRestaurantRequestDTO);
-        return ResponseEntity.ok(dish);
+        OrderRestaurantResponseDTO order = orderRestaurantService.save(orderRestaurantRequestDTO);
+        return ResponseEntity.ok(order);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<OrderRestaurantResponseDTO> update(@PathVariable Integer id, @RequestBody OrderRestaurantRequestDTO orderRestaurantRequestDTO) {
-        OrderRestaurantResponseDTO dish = orderRestaurantService.update(id, orderRestaurantRequestDTO);
-        return ResponseEntity.ok(dish);
+        OrderRestaurantResponseDTO order = orderRestaurantService.update(id, orderRestaurantRequestDTO);
+        return ResponseEntity.ok(order);
     }
 
     @DeleteMapping("/{id}")

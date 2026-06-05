@@ -9,6 +9,6 @@ public interface CourseService {
     List<CourseResponseDTO> findAll();
     CourseResponseDTO findById(Integer id);
     CourseResponseDTO save(CourseRequestDTO courseRequestDTO);
-    CourseRequestDTO update(Integer id, CourseRequestDTO courseRequestDTO);
+    CourseResponseDTO update(Integer id, CourseRequestDTO courseRequestDTO);
     String deletedById(Integer id);
 }

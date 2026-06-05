@@ -4,6 +4,7 @@ import com.example.demo.dto.ristorante.requestdto.DishRequestDTO;
 import com.example.demo.dto.ristorante.responsedto.CategoryCountDTO;
 import com.example.demo.dto.ristorante.responsedto.DishResponseDTO;
 import com.example.demo.dto.ristorante.responsedto.DishResponseWrapperDTO;
+import com.example.demo.entity.ristorante.Dish;
 import com.example.demo.services.ristorante.abstraction.DishService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,18 +29,18 @@ public class DishController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DishResponseWrapperDTO> findByID(@PathVariable Integer id) {
-        try{
-            DishResponseDTO byId = dishService.findById(id);
-            byId.setEsito(true);
-            return ResponseEntity.ok().body(byId);
-        }catch (NoSuchElementException e){
-            System.out.println(e.getMessage());
-            DishResponseDTO res = new DishResponseDTO();
-            res.setEsito(false);
-            res.setErrorMessages(List.of(e.getMessage()));
-            res.setStatus(HttpStatus.NOT_FOUND);
-            return ResponseEntity.status(res.getStatus()).body(res);
-        }
+//        try{
+        DishResponseDTO byId = dishService.findById(id);
+        byId.setEsito(true);
+        return ResponseEntity.ok().body(byId);
+//        }catch (NoSuchElementException e){
+//            System.out.println(e.getMessage());
+//            DishResponseDTO res = new DishResponseDTO();
+//            res.setEsito(false);
+//            res.setErrorMessages(List.of(e.getMessage()));
+//            res.setStatus(HttpStatus.NOT_FOUND);
+//            return ResponseEntity.status(res.getStatus()).body(res);
+//        }
 
     }
 
@@ -91,7 +92,7 @@ public class DishController {
 
     // cerca piatti disponibili per categoria
     @GetMapping("/find-available-dish-by-category-name")
-    public ResponseEntity<List<DishResponseDTO>> findAvailableByCategoryName(@RequestParam String categoryName) {
+    public ResponseEntity<List<DishResponseDTO>> findAvailableDishByCategoryName(@RequestParam String categoryName) {
         List<DishResponseDTO> dishes = dishService.findAvailableDishByCategoryName(categoryName);
         return ResponseEntity.ok(dishes);
     }
@@ -105,14 +106,14 @@ public class DishController {
 
     // ricerca globale per nome piatto, chef o categoria
     @GetMapping("/global-search")
-    public ResponseEntity<List<DishResponseDTO>> globalSearch(@RequestParam String name){
+    public ResponseEntity<List<DishResponseDTO>> globalSearch(@RequestParam String name) {
         List<DishResponseDTO> dtos = dishService.globalSearch(name);
         return ResponseEntity.ok().body(dtos);
     }
 
     // conta piatti disponibili per categoria
     @GetMapping("/count-available-dish-group-by-category")
-    public List<CategoryCountDTO> countAvailableDishGroupByCategory(){
+    public List<CategoryCountDTO> countAvailableDishGroupByCategory() {
         return dishService.countDishGroupingByCategory();
     }
 }

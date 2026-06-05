@@ -1,19 +1,21 @@
 package com.example.demo.service.abstraction;
 
 import com.example.demo.dto.request.CustomerRequestDTO;
+import com.example.demo.dto.request.RoomRequestDTO;
 import com.example.demo.dto.response.CustomerResponseDTO;
+import com.example.demo.dto.response.RoomResponseDTO;
 import com.example.demo.entity.palestra.Customer;
 
 import java.util.List;
 
 public interface RoomService {
-    List<CustomerResponseDTO> findAll();
+    List<RoomResponseDTO> findAll();
 
-    CustomerResponseDTO findById(Integer id);
+    RoomResponseDTO findById(Integer id);
 
-    CustomerResponseDTO save(Customer customer);
+    RoomResponseDTO save(RoomRequestDTO roomRequestDTO);
 
-    CustomerResponseDTO update(Integer id, CustomerRequestDTO customerRequestDTO);
+    RoomResponseDTO update(Integer id, RoomRequestDTO roomRequestDTO);
 
     String deletedById(Integer id);
 }

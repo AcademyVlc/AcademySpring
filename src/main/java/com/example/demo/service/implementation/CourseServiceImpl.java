@@ -54,7 +54,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public String deletedById(Integer id) {
-        if (courseRepository.existsById(id)){
+        if (!courseRepository.existsById(id)){
             throw new RuntimeException("Course not found with id -" + id);
         }
         courseRepository.deleteById(id);

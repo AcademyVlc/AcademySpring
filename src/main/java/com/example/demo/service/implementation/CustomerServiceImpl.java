@@ -53,7 +53,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public String deletedById(Integer id, CustomerRequestDTO customerRequestDTO) {
-        if (customerRepository.existsById(id)){
+        if (!customerRepository.existsById(id)){
             throw new RuntimeException("Customer not founded with id - " + id);
         }
         customerRepository.deleteById(id);

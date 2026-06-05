@@ -32,17 +32,31 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerResponseDTO save(Customer customer) {
-        return null;
+    public CustomerResponseDTO save(CustomerRequestDTO customerRequestDTO) {
+        Customer customer = customerMapper.requestDTOToEntity(customerRequestDTO);
+        Customer savedCustomer = customerRepository.save(customer);
+        return customerMapper.entityToResponseDTO(savedCustomer);
     }
 
     @Override
-    public CustomerResponseDTO update(Customer customer) {
-        return null;
+    public CustomerResponseDTO update(Integer id, CustomerRequestDTO customerRequestDTO) {
+        Customer customer = customerRepository.findById(id).orElseThrow(() -> new RuntimeException("Customer not founded"));
+
+        customer.setFirstname(customerRequestDTO.getFirstname());
+        customer.setLastname(customerRequestDTO.getLastname());
+        customer.setEmail(customerRequestDTO.getEmail());
+        customer.setBirthdate(customerRequestDTO.getBirthdate());
+
+        Customer savedCustomer = customerRepository.save(customer);
+        return customerMapper.entityToResponseDTO(savedCustomer);
     }
 
     @Override
-    public CustomerResponseDTO deletedById(Integer id, CustomerRequestDTO customerRequestDTO) {
-        return null;
+    public String deletedById(Integer id, CustomerRequestDTO customerRequestDTO) {
+        if (customerRepository.existsById(id)){
+            throw new RuntimeException("Customer not founded with id - " + id);
+        }
+        customerRepository.deleteById(id);
+        return "Deleted customer with id - " + id;
     }
 }

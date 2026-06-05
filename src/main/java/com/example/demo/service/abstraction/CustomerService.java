@@ -8,8 +8,12 @@ import java.util.List;
 
 public interface CustomerService {
     List<CustomerResponseDTO> findAll();
+
     CustomerResponseDTO findById(Integer id);
-    CustomerResponseDTO save(Customer customer);
-    CustomerResponseDTO update(Customer customer);
-    CustomerResponseDTO deletedById(Integer id, CustomerRequestDTO customerRequestDTO);
+
+    CustomerResponseDTO save(CustomerRequestDTO customerRequestDTO);
+
+    CustomerResponseDTO update(Integer id, CustomerRequestDTO customerRequestDTO);
+
+    String deletedById(Integer id, CustomerRequestDTO customerRequestDTO);
 }

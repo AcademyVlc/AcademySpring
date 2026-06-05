@@ -1,6 +1,7 @@
 package com.example.demo.mapper.palestra;
 
 import com.example.demo.dto.request.CourseRequestDTO;
+import com.example.demo.dto.request.CustomerRequestDTO;
 import com.example.demo.dto.response.CustomerResponseDTO;
 import com.example.demo.entity.palestra.Customer;
 import org.mapstruct.Mapper;
@@ -16,5 +17,5 @@ public interface CustomerMapper {
     List<CustomerResponseDTO> entityToResponseDTO(List<Customer> customers);
 
     @Mapping(target = "id", ignore = true )
-    Customer requestDTOToEntity(CourseRequestDTO courseRequestDTO);
+    Customer requestDTOToEntity(CustomerRequestDTO customerRequestDTO);
 }

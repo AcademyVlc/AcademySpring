@@ -9,7 +9,7 @@ import java.util.List;
 public interface SubscriptionService {
     List<SubscriptionResponseDTO> findAll();
     SubscriptionResponseDTO findById(Integer id);
-    SubscriptionResponseDTO save(Subscription subscription);
+    SubscriptionResponseDTO save(SubscriptionRequestDTO subscriptionRequestDTO);
     SubscriptionResponseDTO update(Integer id, SubscriptionRequestDTO subscriptionRequestDTO);
     String deletedById(Integer id);
 }

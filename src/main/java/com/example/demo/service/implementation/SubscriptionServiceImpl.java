@@ -3,16 +3,25 @@ package com.example.demo.service.implementation;
 import com.example.demo.dto.request.SubscriptionRequestDTO;
 import com.example.demo.dto.response.SubscriptionResponseDTO;
 import com.example.demo.entity.palestra.Subscription;
+import com.example.demo.mapper.palestra.SubscriptionMapper;
+import com.example.demo.repository.palestra.SubscriptionRepository;
 import com.example.demo.service.abstraction.SubscriptionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class SubscriptionServiceImpl implements SubscriptionService {
+
+    private final SubscriptionRepository subscriptionRepository;
+    private final SubscriptionMapper subscriptionMapper;
+
     @Override
     public List<SubscriptionResponseDTO> findAll() {
-        return List.of();
+        List<Subscription> subscriptions = subscriptionRepository.findAll();
+        return subscriptionMapper.entityToResponseDTO(subscriptions);
     }
 
     @Override
@@ -21,7 +30,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public SubscriptionResponseDTO save(Subscription subscription) {
+    public SubscriptionResponseDTO save(SubscriptionRequestDTO subscriptionRequestDTO) {
         return null;
     }
 

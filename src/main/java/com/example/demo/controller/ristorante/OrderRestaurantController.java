@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -24,9 +25,14 @@ public class OrderRestaurantController {
 
     @GetMapping("/{id}")
     public ResponseEntity<OrderRestaurantResponseDTO> findById(@PathVariable Integer id) {
-        OrderRestaurantResponseDTO order = orderRestaurantService.findById(id);
-        return ResponseEntity.ok(order);
+        try {
+            OrderRestaurantResponseDTO order = orderRestaurantService.findById(id);
+            return ResponseEntity.ok(order);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
+
 
     @PostMapping
     public ResponseEntity<OrderRestaurantResponseDTO> save(@RequestBody OrderRestaurantRequestDTO orderRestaurantRequestDTO) {

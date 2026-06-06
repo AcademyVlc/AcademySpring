@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CourseResponseDTO {
+public class CourseResponseDTO extends CourseResponseWrapperDTO{
 
     private Integer id;
 

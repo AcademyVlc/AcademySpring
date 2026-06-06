@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -24,8 +25,13 @@ public class CategoryController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoryResponseDTO> findById(@PathVariable Integer id) {
-        CategoryResponseDTO category = categoryService.findById(id);
-        return ResponseEntity.ok(category);
+        try {
+            CategoryResponseDTO category = categoryService.findById(id);
+            return ResponseEntity.ok(category);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
     @PostMapping

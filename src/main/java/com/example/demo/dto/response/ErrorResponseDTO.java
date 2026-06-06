@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CourseResponseWrapperDTO {
+public class ErrorResponseDTO {
     Boolean success;
     List<String> errorMessages;
     HttpStatus status;

@@ -27,7 +27,7 @@ public class CustomerController {
     public ResponseEntity<CustomerResponseDTO> findById(@PathVariable Integer id) {
 
         CustomerResponseDTO customer = customerService.findById(id);
-        customer.setEsito(true);
+        customer.setSuccess(true);
         return ResponseEntity.ok(customer);
     }
 
@@ -47,6 +47,13 @@ public class CustomerController {
     public ResponseEntity<Void> deletedByID(@PathVariable Integer id){
         customerService.deletedById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // Non ti serve il CUstomerRequestDTO!!! I dati arrivano già dalla URL
+    @PostMapping("/{customerId}/courses/{courseId}")
+    public ResponseEntity<CustomerResponseDTO> subscribeCustomerToCourse(@PathVariable Integer customerId, @PathVariable Integer courseId){
+        CustomerResponseDTO customerResponseDTO = customerService.subscribeCustomerToCourse(customerId, courseId);
+        return ResponseEntity.ok(customerResponseDTO);
     }
 
 

@@ -16,4 +16,7 @@ public interface CustomerService {
     CustomerResponseDTO update(Integer id, CustomerRequestDTO customerRequestDTO);
 
     String deletedById(Integer id);
+
+    // Iscrivere un cliente ad un corso
+    CustomerResponseDTO subscribeCustomerToCourse(Integer customerId, Integer courseId);
 }

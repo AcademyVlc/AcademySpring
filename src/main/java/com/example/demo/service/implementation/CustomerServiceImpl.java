@@ -2,8 +2,11 @@ package com.example.demo.service.implementation;
 
 import com.example.demo.dto.request.CustomerRequestDTO;
 import com.example.demo.dto.response.CustomerResponseDTO;
+import com.example.demo.entity.palestra.Course;
 import com.example.demo.entity.palestra.Customer;
+import com.example.demo.mapper.palestra.CourseMapper;
 import com.example.demo.mapper.palestra.CustomerMapper;
+import com.example.demo.repository.palestra.CourseRepository;
 import com.example.demo.repository.palestra.CustomerRepository;
 import com.example.demo.service.abstraction.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -11,13 +14,19 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
+    // PER IL CUSTOMER
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
+
+    // PER IL COURSE
+    private final CourseRepository courseRepository;
+    private final CourseMapper courseMapper;
 
     @Override
     public List<CustomerResponseDTO> findAll() {
@@ -59,4 +68,18 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.deleteById(id);
         return "Deleted customer with id - " + id;
     }
+
+    // Iscrivere un cliente ad un corso
+    @Override
+    public CustomerResponseDTO subscribeCustomerToCourse(Integer customerId, Integer courseId) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new NoSuchElementException("Customer not founded"));
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new NoSuchElementException("Course not founded"));
+
+        customer.getCourses().add(course);
+        Customer updatedCustomer = customerRepository.save(customer);
+        return customerMapper.entityToResponseDTO(updatedCustomer);
+    }
+
+
+
 }

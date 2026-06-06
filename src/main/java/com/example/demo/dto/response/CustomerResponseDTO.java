@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CustomerResponseDTO {
+public class CustomerResponseDTO extends CustomerResponseWrapperDTO{
 
     private Integer id;
 

@@ -16,10 +16,10 @@ public class Trainer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "first_name")
+    @Column(name = "firstname")
     private String firstname;
 
-    @Column(name = "last_name")
+    @Column(name = "lastname")
     private String lastname;
 
     private String specialization;

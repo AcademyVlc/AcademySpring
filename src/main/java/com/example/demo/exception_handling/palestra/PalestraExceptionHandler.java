@@ -2,6 +2,7 @@ package com.example.demo.exception_handling.palestra;
 
 import com.example.demo.controller.palestra.CourseController;
 import com.example.demo.controller.palestra.CustomerController;
+import com.example.demo.controller.palestra.TrainerController;
 import com.example.demo.dto.response.ErrorResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-@RestControllerAdvice(assignableTypes = {CustomerController.class, CourseController.class})
+@RestControllerAdvice(assignableTypes = {CustomerController.class, CourseController.class, TrainerController.class})
 public class PalestraExceptionHandler {
 
     @ExceptionHandler(NoSuchElementException.class)

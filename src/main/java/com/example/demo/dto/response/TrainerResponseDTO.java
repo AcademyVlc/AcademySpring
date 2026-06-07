@@ -1,6 +1,6 @@
 package com.example.demo.dto.response;
 
-public class TrainerResponseDTO {
+public class TrainerResponseDTO extends ErrorResponseDTO{
 
     private Integer id;
 

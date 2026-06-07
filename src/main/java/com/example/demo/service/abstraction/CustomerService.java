@@ -1,6 +1,7 @@
 package com.example.demo.service.abstraction;
 
 import com.example.demo.dto.request.CustomerRequestDTO;
+import com.example.demo.dto.response.CourseResponseDTO;
 import com.example.demo.dto.response.CustomerResponseDTO;
 import com.example.demo.entity.palestra.Customer;
 
@@ -19,4 +20,10 @@ public interface CustomerService {
 
     // Iscrivere un cliente ad un corso
     CustomerResponseDTO subscribeCustomerToCourse(Integer customerId, Integer courseId);
+
+    // Togliere l'iscrizione ad un corso da parte di un cliente
+    String unsubscribeCustomerFromCourse(Integer customerId, Integer courseId);
+
+    // Vedere tutti i corsi di un cliente
+    List<CourseResponseDTO> seeAllCoursesOfCustomer(Integer customerId);
 }

@@ -1,6 +1,7 @@
 package com.example.demo.service.implementation;
 
 import com.example.demo.dto.request.CustomerRequestDTO;
+import com.example.demo.dto.response.CourseResponseDTO;
 import com.example.demo.dto.response.CustomerResponseDTO;
 import com.example.demo.entity.palestra.Course;
 import com.example.demo.entity.palestra.Customer;
@@ -80,6 +81,33 @@ public class CustomerServiceImpl implements CustomerService {
         return customerMapper.entityToResponseDTO(updatedCustomer);
     }
 
+    // Togliere l'iscrizione ad un corso da parte di un cliente
+    @Override
+    public String unsubscribeCustomerFromCourse(Integer customerId, Integer courseId) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new NoSuchElementException("Customer not found"));
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new NoSuchElementException("Course not found"));
+
+        if (!courseRepository.existsById(courseId)){
+            throw new NoSuchElementException("Customer is not subscribed to this course");
+        }
+
+        customer.getCourses().remove(course);
+
+        Customer savedCustomer = customerRepository.save(customer);
+        return "Course deleted from customer with id - " + customerId;
+    }
+
+    // Vedere tutti i corsi di un cliente
+    @Override
+    public List<CourseResponseDTO> seeAllCoursesOfCustomer(Integer customerId) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new NoSuchElementException("Customer not found"));
+
+        List<Course> courses = customer.getCourses();
+
+        return courseMapper.entityToResponseDTO(courses);
+    }
+
+    // Vedere tutti i corsi di un cliente
 
 
 }

@@ -11,4 +11,8 @@ public interface CourseService {
     CourseResponseDTO save(CourseRequestDTO courseRequestDTO);
     CourseResponseDTO update(Integer id, CourseRequestDTO courseRequestDTO);
     String deletedById(Integer id);
+    // Sposta corso in un’altra sala solo se la sala ha abbastanza capienza
+    CourseResponseDTO changeCourseRoomCheckCapacity(Integer courseId, Integer roomId);
+    // Elimina corso solo se non ha clienti iscritti
+    void deleteCourseOnlyIfZeroSubscribers(Integer courseId);
 }

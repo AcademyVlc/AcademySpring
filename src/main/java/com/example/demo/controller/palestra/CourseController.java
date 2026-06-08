@@ -46,4 +46,18 @@ public class CourseController {
         courseService.deletedById(id);
         return ResponseEntity.noContent().build();
     }
+
+    // Sposta corso in un’altra sala solo se la sala ha abbastanza capienza
+    @PatchMapping("/{courseId}/room/{roomId}")
+    public ResponseEntity<CourseResponseDTO> changeCourseRoomCheckCapacity(@PathVariable Integer courseId, @PathVariable Integer roomId){
+        CourseResponseDTO courseResponseDTO = courseService.changeCourseRoomCheckCapacity(courseId, roomId);
+        return ResponseEntity.ok(courseResponseDTO);
+    }
+
+    // Elimina corso solo se non ha clienti iscritti
+    @DeleteMapping("{courseId}")
+    public ResponseEntity<Void> deleteCourseOnlyIfZeroSubscribers(@PathVariable Integer courseId){
+        courseService.deleteCourseOnlyIfZeroSubscribers(courseId);
+        return  ResponseEntity.noContent().build();
+    }
 }

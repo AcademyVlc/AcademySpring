@@ -4,6 +4,7 @@ import com.example.demo.dto.ristorante.requestdto.CustomerProfileRequestDTO;
 import com.example.demo.dto.ristorante.responsedto.CustomerProfileResponseDTO;
 import com.example.demo.services.ristorante.abstraction.CustomerProfileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,27 +17,32 @@ public class CustomerProfileController {
     private final CustomerProfileService customerProfileService;
 
     @GetMapping
-    public List<CustomerProfileResponseDTO> findAll() {
-        return customerProfileService.findAll();
+    public ResponseEntity<List<CustomerProfileResponseDTO>> findAll() {
+        List<CustomerProfileResponseDTO> customerProfiles = customerProfileService.findAll();
+        return ResponseEntity.ok(customerProfiles);
     }
 
     @GetMapping("/{id}")
-    public CustomerProfileResponseDTO findById(@PathVariable Integer id) {
-        return customerProfileService.findById(id);
+    public ResponseEntity<CustomerProfileResponseDTO> findById(@PathVariable Integer id) {
+        CustomerProfileResponseDTO customer = customerProfileService.findById(id);
+        return ResponseEntity.ok(customer);
     }
 
     @PostMapping
-    public CustomerProfileResponseDTO save(@RequestBody CustomerProfileRequestDTO customerProfileRequestDTO) {
-        return customerProfileService.save(customerProfileRequestDTO);
+    public ResponseEntity<CustomerProfileResponseDTO> save(@RequestBody CustomerProfileRequestDTO customerProfileRequestDTO) {
+        CustomerProfileResponseDTO customer = customerProfileService.save(customerProfileRequestDTO);
+        return ResponseEntity.ok(customer);
     }
 
     @PutMapping("/{id}")
-    public CustomerProfileResponseDTO update(@PathVariable Integer id, @RequestBody CustomerProfileRequestDTO customerProfileRequestDTO) {
-        return customerProfileService.update(id, customerProfileRequestDTO);
+    public ResponseEntity<CustomerProfileResponseDTO> update(@PathVariable Integer id, @RequestBody CustomerProfileRequestDTO customerProfileRequestDTO) {
+        CustomerProfileResponseDTO customer = customerProfileService.update(id, customerProfileRequestDTO);
+        return ResponseEntity.ok(customer);
     }
 
     @DeleteMapping("/{id}")
-    public void deletedById(@PathVariable Integer id) {
+    public ResponseEntity<Void> deletedById(@PathVariable Integer id) {
         customerProfileService.deletedById(id);
+        return ResponseEntity.noContent().build();
     }
 }

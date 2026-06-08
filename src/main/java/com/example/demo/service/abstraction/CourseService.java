@@ -15,4 +15,8 @@ public interface CourseService {
     CourseResponseDTO changeCourseRoomCheckCapacity(Integer courseId, Integer roomId);
     // Elimina corso solo se non ha clienti iscritti
     void deleteCourseOnlyIfZeroSubscribers(Integer courseId);
+
+    // JPQL
+    // Restituire tutti i corsi tenuti da un trainer cercando per nome.
+    List<CourseResponseDTO> findCoursesByTrainerFirstname(String trainerFirstname);
 }

@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RoomResponseDTO {
+public class RoomResponseDTO extends ErrorResponseDTO{
 
     private Integer id;
 

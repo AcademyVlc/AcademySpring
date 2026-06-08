@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SubscriptionResponseDTO {
+public class SubscriptionResponseDTO extends ErrorResponseDTO{
 
 
     private Integer id;

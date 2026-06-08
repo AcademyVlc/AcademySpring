@@ -60,4 +60,12 @@ public class CourseController {
         courseService.deleteCourseOnlyIfZeroSubscribers(courseId);
         return  ResponseEntity.noContent().build();
     }
+
+    // JPQL
+    // Restituire tutti i corsi tenuti da un trainer cercando per nome
+    @GetMapping("find-courses-by-trainer-firstname")
+    public ResponseEntity<List<CourseResponseDTO>> findCoursesByTrainerFirstname(@PathVariable String trainerFirstname){
+        List<CourseResponseDTO> courses = courseService.findCoursesByTrainerFirstname(trainerFirstname);
+        return ResponseEntity.ok(courses);
+    }
 }

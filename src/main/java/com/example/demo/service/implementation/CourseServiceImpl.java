@@ -96,10 +96,16 @@ public class CourseServiceImpl implements CourseService {
         boolean empty = course.getCustomers().isEmpty();
 
         if (!empty) {
-            throw new RuntimeException("You cant't delete the course because it has subscribers");
+            throw new RuntimeException("You can't delete the course because it has subscribers");
         }
 
         courseRepository.deleteById(courseId);
+    }
+
+    @Override
+    public List<CourseResponseDTO> findCoursesByTrainerFirstname(String trainerFirstname) {
+        List<Course> courses = courseRepository.findCoursesByTrainerFirstname(trainerFirstname);
+        return courseMapper.entityToResponseDTO(courses);
     }
 
 

@@ -71,6 +71,20 @@ public class CustomerController {
         return ResponseEntity.ok(courseResponseDTOS);
     }
 
+    // Iscrivi cliente solo se abbonamento è attivo e non è già iscritto a quel corso
+    @PostMapping("/{customerId}/courses/{courseId}/subscribe")
+    public ResponseEntity<CustomerResponseDTO> subscribeOnlyIfActivateSubscriptionAndCourse(@PathVariable Integer customerId, @PathVariable Integer courseId){
+        CustomerResponseDTO customerResponseDTO = customerService.subscribeOnlyIfActivateSubscriptionAndCourse(customerId, courseId);
+        return ResponseEntity.ok(customerResponseDTO);
+    }
+
+    // Iscrivi cliente solo se la sala non è piena
+    @PostMapping("/{customerId}/courses/{courseId}/subscribe-with-capacity-check")
+    public ResponseEntity<CustomerResponseDTO> subscribeOnlyIfRoomNotFull(@PathVariable Integer customerId, @PathVariable Integer courseId){
+        CustomerResponseDTO customerResponseDTO = customerService.subscribeOnlyIfRoomNotFull(customerId, courseId);
+        return ResponseEntity.ok(customerResponseDTO);
+    }
+
 
 
 }

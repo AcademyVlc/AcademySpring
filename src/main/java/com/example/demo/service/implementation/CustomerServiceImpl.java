@@ -5,6 +5,8 @@ import com.example.demo.dto.response.CourseResponseDTO;
 import com.example.demo.dto.response.CustomerResponseDTO;
 import com.example.demo.entity.palestra.Course;
 import com.example.demo.entity.palestra.Customer;
+import com.example.demo.entity.palestra.Room;
+import com.example.demo.entity.palestra.Subscription;
 import com.example.demo.mapper.palestra.CourseMapper;
 import com.example.demo.mapper.palestra.CustomerMapper;
 import com.example.demo.repository.palestra.CourseRepository;
@@ -13,6 +15,7 @@ import com.example.demo.service.abstraction.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -107,7 +110,61 @@ public class CustomerServiceImpl implements CustomerService {
         return courseMapper.entityToResponseDTO(courses);
     }
 
-    // Vedere tutti i corsi di un cliente
+    // Iscrivi cliente solo se abbonamento è attivo e non è già iscritto a quel corso
+    @Override
+    public CustomerResponseDTO subscribeOnlyIfActivateSubscriptionAndCourse(Integer customerId, Integer courseId) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new NoSuchElementException("Customer not found")); // Trovo il customer
+        Subscription subscription = customer.getSubscription(); // Gli prendo l'iscrizione
+
+        // Evito la NPE di subscription nel caso non esistesse
+        if (subscription == null){
+            throw new RuntimeException("Subscription not found");
+        }
+
+        // Valuto se è ancora attiva l'iscrizione
+        if (subscription.getEndDate().isBefore(LocalDate.now())) {
+            throw new RuntimeException("Subscription is not active");
+        }
+
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new NoSuchElementException("Course not found"));
+        List<Customer> customers = course.getCustomers();
+
+        // Controllo che non sia già iscritto
+        if (customers.contains(customer)) {
+            throw new RuntimeException("Customer is already subscribed to this course");
+        }
+
+        customer.getCourses().add(course);
+
+        Customer savedCustomer = customerRepository.save(customer);
+
+        return customerMapper.entityToResponseDTO(savedCustomer);
+    }
+
+    @Override
+    public CustomerResponseDTO subscribeOnlyIfRoomNotFull(Integer customerId, Integer courseId) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new NoSuchElementException("Customer not found"));
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new NoSuchElementException("Course not found"));
+
+        Room room = course.getRoom();
+        if (room == null){
+            throw new RuntimeException("Room not exist");
+        }
+
+        Integer capacity = room.getCapacity();
+        System.out.println(capacity);
+        int size = course.getCustomers().size();
+        Integer result = capacity - size;
+
+        if (result <= 0){
+            throw new RuntimeException("Room is full!");
+        }
+
+        customer.getCourses().add(course);
+        Customer savedCustomer = customerRepository.save(customer);
+        return customerMapper.entityToResponseDTO(savedCustomer);
+    }
+
 
 
 }

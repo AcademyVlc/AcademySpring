@@ -26,4 +26,10 @@ public interface CustomerService {
 
     // Vedere tutti i corsi di un cliente
     List<CourseResponseDTO> seeAllCoursesOfCustomer(Integer customerId);
+
+    // Iscrivi cliente solo se abbonamento è attivo e non è già iscritto a quel corso
+    CustomerResponseDTO subscribeOnlyIfActivateSubscriptionAndCourse(Integer customerId, Integer courseId);
+
+    // Iscrivi cliente solo se la sala non è piena
+    CustomerResponseDTO subscribeOnlyIfRoomNotFull(Integer customerId, Integer courseId);
 }

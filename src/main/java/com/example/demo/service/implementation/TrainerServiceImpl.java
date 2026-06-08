@@ -21,34 +21,49 @@ import java.util.NoSuchElementException;
 public class TrainerServiceImpl implements TrainerService {
 
     private final TrainerRepository trainerRepository;
-    private  final TrainerMapper trainerMapper;
+    private final TrainerMapper trainerMapper;
 
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
 
     @Override
     public List<TrainerResponseDTO> findAll() {
-        return List.of();
+        List<Trainer> trainers = trainerRepository.findAll();
+        return trainerMapper.entityToResponseDTO(trainers);
     }
 
     @Override
-    public TrainerResponseDTO findById() {
-        return null;
+    public TrainerResponseDTO findById(Integer id) {
+        Trainer trainer = trainerRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Trainer not found"));
+        return trainerMapper.entityToResponseDTO(trainer);
     }
 
     @Override
-    public TrainerResponseDTO save(Trainer trainer) {
-        return null;
+    public TrainerResponseDTO save(TrainerRequestDTO trainerRequestDTO) {
+        Trainer trainer = trainerMapper.requestDTOToEntity(trainerRequestDTO);
+        Trainer savedTrainer = trainerRepository.save(trainer);
+        return trainerMapper.entityToResponseDTO(savedTrainer);
     }
 
     @Override
     public TrainerResponseDTO update(Integer id, TrainerRequestDTO trainerRequestDTO) {
-        return null;
+        Trainer trainer = trainerRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Trainer not found"));
+        trainer.setFirstname(trainerRequestDTO.getFirstname());
+        trainer.setLastname(trainerRequestDTO.getLastname());
+        trainer.setSpecialization(trainerRequestDTO.getSpecialization());
+
+        Trainer savedTrainer = trainerRepository.save(trainer);
+        return trainerMapper.entityToResponseDTO(savedTrainer);
     }
 
     @Override
     public String deletedById(Integer id) {
-        return "";
+        if (!trainerRepository.existsById(id)){
+            throw new RuntimeException("Trainer not found with id - " + id);
+        }
+
+        trainerRepository.deleteById(id);
+        return "Deleted trainer with id - " + id;
     }
 
     @Override

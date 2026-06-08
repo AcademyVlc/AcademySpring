@@ -1,7 +1,13 @@
 package com.example.demo.dto.request;
 
 import jakarta.persistence.Column;
+import lombok.*;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class TrainerRequestDTO {
 
 //    private Integer id;

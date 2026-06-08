@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface TrainerService {
     List<TrainerResponseDTO> findAll();
-    TrainerResponseDTO findById();
-    TrainerResponseDTO save(Trainer trainer);
+    TrainerResponseDTO findById(Integer id);
+    TrainerResponseDTO save(TrainerRequestDTO trainerRequestDTO);
     TrainerResponseDTO update(Integer id, TrainerRequestDTO trainerRequestDTO);
     String deletedById(Integer id);
     // Trova i corsi che fa un trainer

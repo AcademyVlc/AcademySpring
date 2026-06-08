@@ -58,4 +58,16 @@ public class TrainerServiceImpl implements TrainerService {
         List<Course> courses = trainer.getCourses();
         return courseMapper.entityToResponseDTO(courses);
     }
+
+    @Override
+    public CourseResponseDTO changeTrainerCourse(Integer trainerId, Integer courseId) {
+        Trainer trainer = trainerRepository.findById(trainerId).orElseThrow(() -> new NoSuchElementException("Trainer not found"));
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new NoSuchElementException("Course not found"));
+
+        course.setTrainer(trainer);
+        Course savedCourse = courseRepository.save(course);
+
+        return courseMapper.entityToResponseDTO(savedCourse);
+
+    }
 }

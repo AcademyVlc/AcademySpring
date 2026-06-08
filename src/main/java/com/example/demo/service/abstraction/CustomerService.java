@@ -32,4 +32,5 @@ public interface CustomerService {
 
     // Iscrivi cliente solo se la sala non è piena
     CustomerResponseDTO subscribeOnlyIfRoomNotFull(Integer customerId, Integer courseId);
+
 }

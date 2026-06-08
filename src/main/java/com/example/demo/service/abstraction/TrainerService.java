@@ -13,5 +13,8 @@ public interface TrainerService {
     TrainerResponseDTO save(Trainer trainer);
     TrainerResponseDTO update(Integer id, TrainerRequestDTO trainerRequestDTO);
     String deletedById(Integer id);
+    // Trova i corsi che fa un trainer
     List<CourseResponseDTO> seeTrainerCourses(Integer trainerId);
+    // Cambia trainer a un corso
+    CourseResponseDTO changeTrainerCourse(Integer trainerId, Integer courseId);
 }

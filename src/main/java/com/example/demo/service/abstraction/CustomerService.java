@@ -2,6 +2,7 @@ package com.example.demo.service.abstraction;
 
 import com.example.demo.dto.request.CustomerRequestDTO;
 import com.example.demo.dto.response.CourseResponseDTO;
+import com.example.demo.dto.response.CourseRevenueResponseDTO;
 import com.example.demo.dto.response.CustomerResponseDTO;
 import com.example.demo.entity.palestra.Customer;
 
@@ -33,4 +34,9 @@ public interface CustomerService {
     // Iscrivi cliente solo se la sala non è piena
     CustomerResponseDTO subscribeOnlyIfRoomNotFull(Integer customerId, Integer courseId);
 
+    // Trova clienti iscritti a corsi di un certo trainer
+    List<CustomerResponseDTO> findCustomerSubscribeAtTrainerCourse(Integer trainerId);
+
+    // Calcola quanto guadagna la palestra da un corso
+    CourseRevenueResponseDTO calculateCourseRevenue(Integer courseId);
 }

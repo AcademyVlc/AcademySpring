@@ -2,6 +2,7 @@ package com.example.demo.controller.palestra;
 
 import com.example.demo.dto.request.CustomerRequestDTO;
 import com.example.demo.dto.response.CourseResponseDTO;
+import com.example.demo.dto.response.CourseRevenueResponseDTO;
 import com.example.demo.dto.response.CustomerResponseDTO;
 import com.example.demo.service.abstraction.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -33,58 +34,73 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<CustomerResponseDTO> save(@RequestBody CustomerRequestDTO customerRequestDTO){
+    public ResponseEntity<CustomerResponseDTO> save(@RequestBody CustomerRequestDTO customerRequestDTO) {
         CustomerResponseDTO savedCustomer = customerService.save(customerRequestDTO);
         return ResponseEntity.ok(savedCustomer);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CustomerResponseDTO> update(@PathVariable Integer id, @RequestBody CustomerRequestDTO customerRequestDTO){
+    public ResponseEntity<CustomerResponseDTO> update(@PathVariable Integer id, @RequestBody CustomerRequestDTO customerRequestDTO) {
         CustomerResponseDTO updatedCustomer = customerService.update(id, customerRequestDTO);
         return ResponseEntity.ok(updatedCustomer);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletedByID(@PathVariable Integer id){
+    public ResponseEntity<Void> deletedByID(@PathVariable Integer id) {
         customerService.deletedById(id);
         return ResponseEntity.noContent().build();
     }
 
     // Non ti serve il CustomerRequestDTO!!! I dati arrivano già dalla URL
     @PostMapping("/{customerId}/courses/{courseId}")
-    public ResponseEntity<CustomerResponseDTO> subscribeCustomerToCourse(@PathVariable Integer customerId, @PathVariable Integer courseId){
+    public ResponseEntity<CustomerResponseDTO> subscribeCustomerToCourse(@PathVariable Integer customerId, @PathVariable Integer courseId) {
         CustomerResponseDTO customerResponseDTO = customerService.subscribeCustomerToCourse(customerId, courseId);
         return ResponseEntity.ok(customerResponseDTO);
     }
 
     // Togliere l'iscrizione ad un corso da parte di un cliente
     @DeleteMapping("/{customerId}/courses/{courseId}")
-    public ResponseEntity<Void> unsubscribeCustomerFromCourse(@PathVariable Integer customerId, @PathVariable Integer courseId){
+    public ResponseEntity<Void> unsubscribeCustomerFromCourse(@PathVariable Integer customerId, @PathVariable Integer courseId) {
         customerService.unsubscribeCustomerFromCourse(customerId, courseId);
         return ResponseEntity.noContent().build();
     }
 
     // Vedere tutti i corsi a cui è iscritto un customer
     @GetMapping("/{customerId}/courses")
-    public ResponseEntity<List<CourseResponseDTO>> seeAllCoursesOfCustomer(@PathVariable Integer customerId){
+    public ResponseEntity<List<CourseResponseDTO>> seeAllCoursesOfCustomer(@PathVariable Integer customerId) {
         List<CourseResponseDTO> courseResponseDTOS = customerService.seeAllCoursesOfCustomer(customerId);
         return ResponseEntity.ok(courseResponseDTOS);
     }
 
     // Iscrivi cliente solo se abbonamento è attivo e non è già iscritto a quel corso
     @PostMapping("/{customerId}/courses/{courseId}/subscribe")
-    public ResponseEntity<CustomerResponseDTO> subscribeOnlyIfActivateSubscriptionAndCourse(@PathVariable Integer customerId, @PathVariable Integer courseId){
+    public ResponseEntity<CustomerResponseDTO> subscribeOnlyIfActivateSubscriptionAndCourse(@PathVariable Integer customerId, @PathVariable Integer courseId) {
         CustomerResponseDTO customerResponseDTO = customerService.subscribeOnlyIfActivateSubscriptionAndCourse(customerId, courseId);
         return ResponseEntity.ok(customerResponseDTO);
     }
 
     // Iscrivi cliente solo se la sala non è piena
     @PostMapping("/{customerId}/courses/{courseId}/subscribe-with-capacity-check")
-    public ResponseEntity<CustomerResponseDTO> subscribeOnlyIfRoomNotFull(@PathVariable Integer customerId, @PathVariable Integer courseId){
+    public ResponseEntity<CustomerResponseDTO> subscribeOnlyIfRoomNotFull(@PathVariable Integer customerId, @PathVariable Integer courseId) {
         CustomerResponseDTO customerResponseDTO = customerService.subscribeOnlyIfRoomNotFull(customerId, courseId);
         return ResponseEntity.ok(customerResponseDTO);
     }
 
+    // Trova clienti iscritti a corsi di un certo trainer
+    @GetMapping("/{trainerId}/customers")
+    public ResponseEntity<List<CustomerResponseDTO>> findCustomerSubscribeAtTrainerCourse(@PathVariable Integer trainerId) {
+        List<CustomerResponseDTO> customers = customerService.findCustomerSubscribeAtTrainerCourse(trainerId);
+        return ResponseEntity.ok(customers);
+    }
+
+    // Calcola quanto guadagna la palestra da un corso
+    @GetMapping("/{courseId}/revenue")
+    public ResponseEntity<CourseRevenueResponseDTO> calculateCourseRevenue(@PathVariable Integer courseId) {
+
+        CourseRevenueResponseDTO response = customerService.calculateCourseRevenue(courseId);
+
+        return ResponseEntity.ok(response);
+    }
 
 
 }

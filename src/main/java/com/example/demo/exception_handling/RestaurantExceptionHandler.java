@@ -1,6 +1,7 @@
 package com.example.demo.exception_handling;
 
 import com.example.demo.controller.ristorante.ChefController;
+import com.example.demo.controller.ristorante.CustomerController;
 import com.example.demo.controller.ristorante.DishController;
 import com.example.demo.dto.ristorante.responsedto.DishResponseDTO;
 import com.example.demo.dto.ristorante.responsedto.DishResponseWrapperDTO;
@@ -15,7 +16,8 @@ import java.util.NoSuchElementException;
 
 @RestControllerAdvice(assignableTypes = {
         DishController.class,
-        ChefController.class
+        ChefController.class,
+        CustomerController.class
 })
 public class RestaurantExceptionHandler {
 

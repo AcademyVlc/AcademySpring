@@ -58,7 +58,7 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public String deletedById(Integer id) {
-        if (!trainerRepository.existsById(id)){
+        if (!trainerRepository.existsById(id)) {
             throw new RuntimeException("Trainer not found with id - " + id);
         }
 
@@ -84,5 +84,12 @@ public class TrainerServiceImpl implements TrainerService {
 
         return courseMapper.entityToResponseDTO(savedCourse);
 
+    }
+
+    // Trovare trainer che tengono corsi in una certa sala
+    @Override
+    public List<TrainerResponseDTO> findTrainersByRoomName(String roomName) {
+        List<Trainer> trainers = trainerRepository.findTrainersByRoomName(roomName);
+        return trainerMapper.entityToResponseDTO(trainers);
     }
 }

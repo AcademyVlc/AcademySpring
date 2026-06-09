@@ -204,5 +204,19 @@ public class CustomerServiceImpl implements CustomerService {
                 .build();
     }
 
+    // Trovare clienti con abbonamento attivo
+    @Override
+    public List<CustomerResponseDTO> findCustomersWithActiveSubscription() {
+        List<Customer> customers = customerRepository.findCustomersWithActiveSubscription();
+        return customerMapper.entityToResponseDTO(customers);
+    }
+
+    // Trovare clienti iscritti a un corso tramite nome corso
+    @Override
+    public List<CustomerResponseDTO> findCustomersByCourseName(String courseName) {
+        List<Customer> customers = customerRepository.findCustomersByCourseName(courseName);
+        return customerMapper.entityToResponseDTO(customers);
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package com.example.demo.controller.palestra;
 
 import com.example.demo.dto.request.CourseRequestDTO;
+import com.example.demo.dto.response.CourseCustomerCountDTO;
 import com.example.demo.dto.response.CourseResponseDTO;
 import com.example.demo.service.abstraction.CourseService;
 import lombok.RequiredArgsConstructor;
@@ -63,9 +64,36 @@ public class CourseController {
 
     // JPQL
     // Restituire tutti i corsi tenuti da un trainer cercando per nome
-    @GetMapping("find-courses-by-trainer-firstname")
-    public ResponseEntity<List<CourseResponseDTO>> findCoursesByTrainerFirstname(@PathVariable String trainerFirstname){
+    @GetMapping("/find-courses-by-trainer-firstname")
+    public ResponseEntity<List<CourseResponseDTO>> findCoursesByTrainerFirstname(@RequestParam String trainerFirstname){
         List<CourseResponseDTO> courses = courseService.findCoursesByTrainerFirstname(trainerFirstname);
         return ResponseEntity.ok(courses);
     }
+
+    // Trovare corsi con durata maggiore di X minuti
+    @GetMapping("/duration-greater-than")
+    public ResponseEntity<List<CourseResponseDTO>> findCoursesLongerThan(@RequestParam Integer minutes){
+        List<CourseResponseDTO> courses = courseService.findCoursesLongerThan(minutes);
+        return ResponseEntity.ok(courses);
+    }
+
+    // Contare quanti clienti sono iscritti a ogni corso
+    @GetMapping("/customer-count")
+    public ResponseEntity<List<CourseCustomerCountDTO>> countCustomersByCourse() {
+
+        List<CourseCustomerCountDTO> result = courseService.countCustomersByCourse();
+
+        return ResponseEntity.ok(result);
+    }
+
+    // Trovare corsi con almeno X iscritti
+    @GetMapping("/min-customers")
+    public ResponseEntity<List<CourseResponseDTO>> findCoursesWithAtLeastCustomers(
+            @RequestParam Long min) {
+
+        return ResponseEntity.ok(
+                courseService.findCoursesWithAtLeastCustomers(min)
+        );
+    }
+
 }

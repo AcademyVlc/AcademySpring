@@ -1,6 +1,7 @@
 package com.example.demo.service.implementation;
 
 import com.example.demo.dto.request.SubscriptionRequestDTO;
+import com.example.demo.dto.response.RevenueDTO;
 import com.example.demo.dto.response.SubscriptionResponseDTO;
 import com.example.demo.entity.palestra.Subscription;
 import com.example.demo.mapper.palestra.SubscriptionMapper;
@@ -9,6 +10,7 @@ import com.example.demo.service.abstraction.SubscriptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -42,5 +44,15 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     public String deletedById(Integer id) {
         return "";
+    }
+
+    // Calcolare incasso totale da abbonamenti attivi
+    @Override
+    public RevenueDTO calculateActiveSubscriptionsRevenue() {
+        BigDecimal total = subscriptionRepository.calculateActiveSubscriptionsRevenue();
+
+        return RevenueDTO.builder()
+                .totalRevenue(total)
+                .build();
     }
 }

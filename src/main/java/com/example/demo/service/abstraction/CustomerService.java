@@ -5,6 +5,7 @@ import com.example.demo.dto.response.CourseResponseDTO;
 import com.example.demo.dto.response.CourseRevenueResponseDTO;
 import com.example.demo.dto.response.CustomerResponseDTO;
 import com.example.demo.entity.palestra.Customer;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -39,4 +40,10 @@ public interface CustomerService {
 
     // Calcola quanto guadagna la palestra da un corso
     CourseRevenueResponseDTO calculateCourseRevenue(Integer courseId);
+
+    // Trovare clienti con abbonamento attivo
+    List<CustomerResponseDTO> findCustomersWithActiveSubscription();
+
+    // Trovare clienti iscritti a un corso tramite nome corso
+    List<CustomerResponseDTO> findCustomersByCourseName(@Param("courseName") String courseName);
 }

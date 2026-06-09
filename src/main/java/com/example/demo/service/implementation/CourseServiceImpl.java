@@ -1,6 +1,7 @@
 package com.example.demo.service.implementation;
 
 import com.example.demo.dto.request.CourseRequestDTO;
+import com.example.demo.dto.response.CourseCustomerCountDTO;
 import com.example.demo.dto.response.CourseResponseDTO;
 import com.example.demo.entity.palestra.Course;
 import com.example.demo.entity.palestra.Room;
@@ -102,9 +103,30 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.deleteById(courseId);
     }
 
+    // Restituire tutti i corsi tenuti da un trainer cercando per nome
     @Override
     public List<CourseResponseDTO> findCoursesByTrainerFirstname(String trainerFirstname) {
         List<Course> courses = courseRepository.findCoursesByTrainerFirstname(trainerFirstname);
+        return courseMapper.entityToResponseDTO(courses);
+    }
+
+    // Trovare corsi con durata maggiore di X minuti
+    @Override
+    public List<CourseResponseDTO> findCoursesLongerThan(Integer minutes) {
+        List<Course> courses = courseRepository.findCoursesLongerThan(minutes);
+        return courseMapper.entityToResponseDTO(courses);
+    }
+
+    // Contare quanti clienti sono iscritti a ogni corso
+    @Override
+    public List<CourseCustomerCountDTO> countCustomersByCourse() {
+        return courseRepository.countCustomersByCourse();
+    }
+
+    // Trovare corsi con almeno X iscritti
+    @Override
+    public List<CourseResponseDTO> findCoursesWithAtLeastCustomers(Long min) {
+        List<Course> courses = courseRepository.findCoursesWithAtLeastCustomers(min);
         return courseMapper.entityToResponseDTO(courses);
     }
 

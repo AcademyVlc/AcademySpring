@@ -1,6 +1,7 @@
 package com.example.demo.service.abstraction;
 
 import com.example.demo.dto.request.SubscriptionRequestDTO;
+import com.example.demo.dto.response.RevenueDTO;
 import com.example.demo.dto.response.SubscriptionResponseDTO;
 import com.example.demo.entity.palestra.Subscription;
 
@@ -12,4 +13,6 @@ public interface SubscriptionService {
     SubscriptionResponseDTO save(SubscriptionRequestDTO subscriptionRequestDTO);
     SubscriptionResponseDTO update(Integer id, SubscriptionRequestDTO subscriptionRequestDTO);
     String deletedById(Integer id);
+    // Calcolare incasso totale da abbonamenti attivi
+    RevenueDTO calculateActiveSubscriptionsRevenue();
 }

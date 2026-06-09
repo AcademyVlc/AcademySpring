@@ -102,5 +102,23 @@ public class CustomerController {
         return ResponseEntity.ok(response);
     }
 
+    // Trovare clienti con abbonamento attivo
+    @GetMapping("/active-subscription")
+    public ResponseEntity<List<CustomerResponseDTO>> findCustomersWithActiveSubscription(){
+        List<CustomerResponseDTO> customers = customerService.findCustomersWithActiveSubscription();
+        return ResponseEntity.ok(customers);
+    }
+
+    // Trovare clienti iscritti a un corso tramite nome corso
+    @GetMapping("/by-course-name")
+    public ResponseEntity<List<CustomerResponseDTO>> findCustomersByCourseName(
+            @RequestParam String courseName) {
+
+        return ResponseEntity.ok(
+                customerService.findCustomersByCourseName(courseName)
+        );
+    }
+
+
 
 }

@@ -5,6 +5,10 @@ import com.example.demo.dto.response.CourseCustomerCountDTO;
 import com.example.demo.dto.response.CourseResponseDTO;
 import com.example.demo.entity.palestra.Course;
 import com.example.demo.entity.palestra.Room;
+import com.example.demo.exception_handling.palestra.exceptions.CourseHasSubscribersException;
+import com.example.demo.exception_handling.palestra.exceptions.CourseNotFoundException;
+import com.example.demo.exception_handling.palestra.exceptions.RoomFullException;
+import com.example.demo.exception_handling.palestra.exceptions.RoomNotFoundException;
 import com.example.demo.mapper.palestra.CourseMapper;
 import com.example.demo.mapper.palestra.RoomMapper;
 import com.example.demo.repository.palestra.CourseRepository;
@@ -35,7 +39,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseResponseDTO findById(Integer id) {
-        Course course = courseRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Course not founded"));
+        Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException("Course not founded"));
         return courseMapper.entityToResponseDTO(course);
     }
 
@@ -48,7 +52,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseResponseDTO update(Integer id, CourseRequestDTO courseRequestDTO) {
-        Course course = courseRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Course not found"));
+        Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException("Course not found"));
 
         course.setName(courseRequestDTO.getName());
         course.setLevel(courseRequestDTO.getLevel());
@@ -62,7 +66,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public String deletedById(Integer id) {
         if (!courseRepository.existsById(id)) {
-            throw new RuntimeException("Course not found with id -" + id);
+            throw new CourseNotFoundException("Course not found with id -" + id);
         }
         courseRepository.deleteById(id);
         return "Deleted course with id - " + id;
@@ -71,8 +75,8 @@ public class CourseServiceImpl implements CourseService {
     // Sposta corso in un’altra sala solo se la sala ha abbastanza capienza
     @Override
     public CourseResponseDTO changeCourseRoomCheckCapacity(Integer courseId, Integer roomId) {
-        Course course = courseRepository.findById(courseId).orElseThrow(() -> new NoSuchElementException("Course Not found"));
-        Room room = roomRepository.findById(roomId).orElseThrow(() -> new NoSuchElementException("Room not found"));
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException("Course Not found"));
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException("Room not found"));
 
         Integer subscribers = course.getCustomers().size();
         Integer roomCapacity = room.getCapacity();
@@ -80,7 +84,7 @@ public class CourseServiceImpl implements CourseService {
         Integer result = roomCapacity - subscribers;
 
         if (result <= 0) {
-            throw new RuntimeException("Room capacity not enough to host subscribers");
+            throw new RoomFullException("Room capacity not enough to host subscribers");
         }
 
         course.setRoom(room);
@@ -92,12 +96,12 @@ public class CourseServiceImpl implements CourseService {
     // Elimina corso solo se non ha clienti iscritti
     @Override
     public void deleteCourseOnlyIfZeroSubscribers(Integer courseId) {
-        Course course = courseRepository.findById(courseId).orElseThrow(() -> new NoSuchElementException("Course not found"));
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException("Course not found"));
 
         boolean empty = course.getCustomers().isEmpty();
 
         if (!empty) {
-            throw new RuntimeException("You can't delete the course because it has subscribers");
+            throw new CourseHasSubscribersException("You can't delete the course because it has subscribers");
         }
 
         courseRepository.deleteById(courseId);

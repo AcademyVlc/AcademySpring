@@ -5,6 +5,7 @@ import com.example.demo.dto.response.CourseResponseDTO;
 import com.example.demo.dto.response.CourseRevenueResponseDTO;
 import com.example.demo.dto.response.CustomerResponseDTO;
 import com.example.demo.entity.palestra.*;
+import com.example.demo.exception_handling.palestra.exceptions.CustomerNotFoundException;
 import com.example.demo.mapper.palestra.CourseMapper;
 import com.example.demo.mapper.palestra.CustomerMapper;
 import com.example.demo.mapper.palestra.TrainerMapper;
@@ -45,7 +46,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerResponseDTO findById(Integer id) {
-        Customer customer = customerRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Customer not founded"));
+        Customer customer = customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException("Customer not founded"));
         return customerMapper.entityToResponseDTO(customer);
     }
 

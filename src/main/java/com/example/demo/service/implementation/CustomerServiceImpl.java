@@ -5,7 +5,10 @@ import com.example.demo.dto.response.CourseResponseDTO;
 import com.example.demo.dto.response.CourseRevenueResponseDTO;
 import com.example.demo.dto.response.CustomerResponseDTO;
 import com.example.demo.entity.palestra.*;
+import com.example.demo.exception_handling.palestra.exceptions.CourseNotFoundException;
 import com.example.demo.exception_handling.palestra.exceptions.CustomerNotFoundException;
+import com.example.demo.exception_handling.palestra.exceptions.SubscriptionNotFoundException;
+import com.example.demo.exception_handling.palestra.exceptions.TrainerNotFoundException;
 import com.example.demo.mapper.palestra.CourseMapper;
 import com.example.demo.mapper.palestra.CustomerMapper;
 import com.example.demo.mapper.palestra.TrainerMapper;
@@ -109,7 +112,7 @@ public class CustomerServiceImpl implements CustomerService {
     // Vedere tutti i corsi di un cliente
     @Override
     public List<CourseResponseDTO> seeAllCoursesOfCustomer(Integer customerId) {
-        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new NoSuchElementException("Customer not found"));
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
 
         List<Course> courses = customer.getCourses();
 
@@ -119,12 +122,12 @@ public class CustomerServiceImpl implements CustomerService {
     // Iscrivi cliente solo se abbonamento è attivo e non è già iscritto a quel corso
     @Override
     public CustomerResponseDTO subscribeOnlyIfActivateSubscriptionAndCourse(Integer customerId, Integer courseId) {
-        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new NoSuchElementException("Customer not found")); // Trovo il customer
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new CustomerNotFoundException("Customer not found")); // Trovo il customer
         Subscription subscription = customer.getSubscription(); // Gli prendo l'iscrizione
 
         // Evito la NPE di subscription nel caso non esistesse
         if (subscription == null) {
-            throw new RuntimeException("Subscription not found");
+            throw new SubscriptionNotFoundException("Subscription not found");
         }
 
         // Valuto se è ancora attiva l'iscrizione
@@ -132,7 +135,7 @@ public class CustomerServiceImpl implements CustomerService {
             throw new RuntimeException("Subscription is not active");
         }
 
-        Course course = courseRepository.findById(courseId).orElseThrow(() -> new NoSuchElementException("Course not found"));
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException("Course not found"));
         List<Customer> customers = course.getCustomers();
 
         // Controllo che non sia già iscritto
@@ -174,7 +177,7 @@ public class CustomerServiceImpl implements CustomerService {
     // Trova clienti iscritti a corsi di un certo trainer
     @Override
     public List<CustomerResponseDTO> findCustomerSubscribeAtTrainerCourse(Integer trainerId) {
-        Trainer trainer = trainerRepository.findById(trainerId).orElseThrow(() -> new NoSuchElementException("Trainer not found"));
+        Trainer trainer = trainerRepository.findById(trainerId).orElseThrow(() -> new TrainerNotFoundException("Trainer not found"));
 
         List<Customer> customers = trainer.getCourses()
                 .stream()
@@ -189,7 +192,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CourseRevenueResponseDTO calculateCourseRevenue(Integer courseId) {
 
-        Course course = courseRepository.findById(courseId).orElseThrow(() -> new NoSuchElementException("Course not found"));
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException("Course not found"));
 
         BigDecimal totalRevenue = course.getCustomers()
                 .stream()

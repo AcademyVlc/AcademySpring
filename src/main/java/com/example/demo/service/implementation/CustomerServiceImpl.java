@@ -76,7 +76,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public String deletedById(Integer id) {
         if (!customerRepository.existsById(id)) {
-            throw new RuntimeException("Customer not founded with id - " + id);
+            throw new CustomerNotFoundException("Customer not founded with id - " + id);
         }
         customerRepository.deleteById(id);
         return "Deleted customer with id - " + id;

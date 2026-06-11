@@ -175,6 +175,15 @@ class CustomerServiceImplTest {
     }
 
     @Test
+    void deletedByIdNotFound() {
+        Integer id = 1;
+
+        when(customerRepository.existsById(id)).thenReturn(false);
+
+        assertThrows(CustomerNotFoundException.class, () -> customerService.deletedById(id));
+    }
+
+    @Test
     void subscribeCustomerToCourse() {
         Integer customerId = 1;
         Integer courseId = 1;

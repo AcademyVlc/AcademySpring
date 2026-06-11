@@ -5,6 +5,7 @@ import com.example.demo.dto.response.CourseResponseDTO;
 import com.example.demo.dto.response.TrainerResponseDTO;
 import com.example.demo.entity.palestra.Course;
 import com.example.demo.entity.palestra.Trainer;
+import com.example.demo.exception_handling.palestra.exceptions.TrainerNotFoundException;
 import com.example.demo.mapper.palestra.CourseMapper;
 import com.example.demo.mapper.palestra.TrainerMapper;
 import com.example.demo.repository.palestra.CourseRepository;
@@ -59,7 +60,7 @@ public class TrainerServiceImpl implements TrainerService {
     @Override
     public String deletedById(Integer id) {
         if (!trainerRepository.existsById(id)) {
-            throw new RuntimeException("Trainer not found with id - " + id);
+            throw new TrainerNotFoundException("Trainer not found with id - " + id);
         }
 
         trainerRepository.deleteById(id);

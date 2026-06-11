@@ -4,6 +4,7 @@ import com.example.demo.dto.request.SubscriptionRequestDTO;
 import com.example.demo.dto.response.RevenueDTO;
 import com.example.demo.dto.response.SubscriptionResponseDTO;
 import com.example.demo.entity.palestra.Subscription;
+import com.example.demo.exception_handling.palestra.exceptions.SubscriptionNotFoundException;
 import com.example.demo.mapper.palestra.SubscriptionMapper;
 import com.example.demo.repository.palestra.SubscriptionRepository;
 import com.example.demo.service.abstraction.SubscriptionService;
@@ -28,22 +29,36 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public SubscriptionResponseDTO findById(Integer id) {
-        return null;
+        Subscription subscription = subscriptionRepository.findById(id).orElseThrow(() -> new SubscriptionNotFoundException("Subscription not found"));
+        return subscriptionMapper.entityToResponseDTO(subscription);
     }
 
     @Override
     public SubscriptionResponseDTO save(SubscriptionRequestDTO subscriptionRequestDTO) {
-        return null;
+        Subscription subscription = subscriptionMapper.requestDTOToEntity(subscriptionRequestDTO);
+        Subscription savedSubscription = subscriptionRepository.save(subscription);
+        return subscriptionMapper.entityToResponseDTO(savedSubscription);
     }
 
     @Override
     public SubscriptionResponseDTO update(Integer id, SubscriptionRequestDTO subscriptionRequestDTO) {
-        return null;
+        Subscription subscription = subscriptionRepository.findById(id).orElseThrow(() -> new SubscriptionNotFoundException("Subscription not found"));
+
+        subscription.setPrice(subscriptionRequestDTO.getPrice());
+        subscription.setType(subscriptionRequestDTO.getType());
+
+        Subscription savedSubscription = subscriptionRepository.save(subscription);
+
+        return subscriptionMapper.entityToResponseDTO(savedSubscription);
     }
 
     @Override
     public String deletedById(Integer id) {
-        return "";
+        if (!subscriptionRepository.existsById(id)){
+            throw new SubscriptionNotFoundException("Subscriptio not found");
+        }
+        subscriptionRepository.deleteById(id);
+        return "Deleted subscription with id - " + id;
     }
 
     // Calcolare incasso totale da abbonamenti attivi

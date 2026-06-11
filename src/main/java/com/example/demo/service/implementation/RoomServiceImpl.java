@@ -3,6 +3,7 @@ package com.example.demo.service.implementation;
 import com.example.demo.dto.request.RoomRequestDTO;
 import com.example.demo.dto.response.RoomResponseDTO;
 import com.example.demo.entity.palestra.Room;
+import com.example.demo.exception_handling.palestra.exceptions.RoomNotFoundException;
 import com.example.demo.mapper.palestra.RoomMapper;
 import com.example.demo.repository.palestra.RoomRepository;
 import com.example.demo.service.abstraction.RoomService;
@@ -27,7 +28,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomResponseDTO findById(Integer id) {
-        Room room = roomRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Room not founded"));
+        Room room = roomRepository.findById(id).orElseThrow(() -> new RoomNotFoundException("Room not founded"));
         return roomMapper.entityToResponseDTO(room);
     }
 
@@ -53,7 +54,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public String deletedById(Integer id) {
         if (!roomRepository.existsById(id)) {
-            throw new RuntimeException("Room not founded");
+            throw new RoomNotFoundException("Room not founded");
         }
 
         roomRepository.deleteById(id);

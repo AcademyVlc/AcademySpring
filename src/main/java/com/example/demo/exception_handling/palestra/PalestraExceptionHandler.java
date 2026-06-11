@@ -107,4 +107,19 @@ public class PalestraExceptionHandler {
                 .body(errorResponseDTO);
     }
 
+    @ExceptionHandler(SubscriptionNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> roomFullException(SubscriptionNotFoundException e) {
+
+        System.out.println(e.getMessage());
+
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO();
+        errorResponseDTO.setSuccess(false);
+        errorResponseDTO.setErrorMessages(List.of(e.getMessage()));
+        errorResponseDTO.setStatus(HttpStatus.CONFLICT); // La richiesta è sintatticamente corretta, ma non può essere eseguita a causa dello stato attuale della risorsa.
+
+        return ResponseEntity
+                .status(errorResponseDTO.getStatus())
+                .body(errorResponseDTO);
+    }
+
 }

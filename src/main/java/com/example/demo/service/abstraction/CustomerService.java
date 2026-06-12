@@ -5,21 +5,22 @@ import com.example.demo.dto.response.CourseResponseDTO;
 import com.example.demo.dto.response.CourseRevenueResponseDTO;
 import com.example.demo.dto.response.CustomerResponseDTO;
 import com.example.demo.entity.palestra.Customer;
+import com.example.demo.service.abstraction.generic_service.GenericService;
 import org.apache.coyote.BadRequestException;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface CustomerService {
-    List<CustomerResponseDTO> findAll();
-
-    CustomerResponseDTO findById(Integer id);
-
-    CustomerResponseDTO save(CustomerRequestDTO customerRequestDTO) throws BadRequestException;
-
-    CustomerResponseDTO update(Integer id, CustomerRequestDTO customerRequestDTO);
-
-    String deletedById(Integer id);
+public interface CustomerService extends GenericService<CustomerResponseDTO, CustomerRequestDTO, Integer> {
+//    List<CustomerResponseDTO> findAll();
+//
+//    CustomerResponseDTO findById(Integer id);
+//
+//    CustomerResponseDTO save(CustomerRequestDTO customerRequestDTO) throws BadRequestException;
+//
+//    CustomerResponseDTO update(Integer id, CustomerRequestDTO customerRequestDTO);
+//
+//    String deletedById(Integer id);
 
     // Iscrivere un cliente ad un corso
     CustomerResponseDTO subscribeCustomerToCourse(Integer customerId, Integer courseId);

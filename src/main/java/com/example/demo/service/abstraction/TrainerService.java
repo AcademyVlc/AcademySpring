@@ -4,19 +4,20 @@ import com.example.demo.dto.request.TrainerRequestDTO;
 import com.example.demo.dto.response.CourseResponseDTO;
 import com.example.demo.dto.response.TrainerResponseDTO;
 import com.example.demo.entity.palestra.Trainer;
+import com.example.demo.service.abstraction.generic_service.GenericService;
 
 import java.util.List;
 
-public interface TrainerService {
-    List<TrainerResponseDTO> findAll();
-
-    TrainerResponseDTO findById(Integer id);
-
-    TrainerResponseDTO save(TrainerRequestDTO trainerRequestDTO);
-
-    TrainerResponseDTO update(Integer id, TrainerRequestDTO trainerRequestDTO);
-
-    String deletedById(Integer id);
+public interface TrainerService extends GenericService<TrainerResponseDTO, TrainerRequestDTO, Integer> {
+//    List<TrainerResponseDTO> findAll();
+//
+//    TrainerResponseDTO findById(Integer id);
+//
+//    TrainerResponseDTO save(TrainerRequestDTO trainerRequestDTO);
+//
+//    TrainerResponseDTO update(Integer id, TrainerRequestDTO trainerRequestDTO);
+//
+//    String deletedById(Integer id);
 
     TrainerResponseDTO findByFirstame(String trainerName);
 

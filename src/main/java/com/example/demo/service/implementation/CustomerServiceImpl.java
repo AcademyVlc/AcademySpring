@@ -67,24 +67,42 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerResponseDTO save(CustomerRequestDTO customerRequestDTO) throws BadRequestException{
+    public CustomerResponseDTO save(CustomerRequestDTO customerRequestDTO) {
+
         Customer customer = customerMapper.requestDTOToEntity(customerRequestDTO);
 
-        // "Controlla se questo oggetto Customer rispetta le annotazioni @NotBlank, @Pattern ecc"
-        // -> se trova errori, li mette dentro violations
-        Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
+    /*
+    // "Controlla se questo oggetto Customer rispetta le annotazioni @NotBlank, @Pattern ecc"
+    // -> se trova errori, li mette dentro violations
+    Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
 
-        if (!violations.isEmpty()){
-            String errorMessages = violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.joining("\n"));
-            logger.error(errorMessages);
-            throw new BadRequestException(errorMessages);
-            // Se ci sono errori di validazione, prendi tutti i messaggi, uniscili in una stringa
-            // -> scrivili nei log, blocca il salvataggio lanciando BadRequestException
-        }
+    if (!violations.isEmpty()) {
+        String errorMessages = violations.stream()
+                .map(ConstraintViolation::getMessage)
+                .collect(Collectors.joining("\n"));
+
+        logger.error(errorMessages);
+
+        throw new BadRequestException(errorMessages);
+
+        // Se ci sono errori di validazione, prendi tutti i messaggi,
+        // uniscili in una stringa
+        // -> scrivili nei log
+        // -> blocca il salvataggio lanciando BadRequestException
+    }
+
+    // Questo era l'approccio con validazione manuale nel Service.
+    // Ora la validazione viene eseguita automaticamente tramite:
+    // - annotazioni nel CustomerRequestDTO
+    // - @Valid nel Controller
+    // - MethodArgumentNotValidException
+    // - RestControllerAdvice
+    */
 
         Customer savedCustomer = customerRepository.save(customer);
-        // Meglio aggiungere l'id, cosi so sempre a quale customer mi riferisco
-        logger.info("Customer saved succesfully with id {}", savedCustomer.getId());
+
+        logger.info("Customer saved successfully with id {}", savedCustomer.getId());
+
         return customerMapper.entityToResponseDTO(savedCustomer);
     }
 

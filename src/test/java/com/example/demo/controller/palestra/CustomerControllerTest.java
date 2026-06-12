@@ -69,9 +69,10 @@ class CustomerControllerTest {
     void save() throws Exception{
         String json = """
                 {
-                    "firstname": "Mario",
-                    "lastname": "Rossi",
-                    "email": "mario.rossi@email.it"
+                  "firstname": "Mario",
+                  "lastname": "Rossi",
+                  "email": "mario.rossi@gmail.com",
+                  "birthdate": "2000-01-01"
                 }
                 """;
 

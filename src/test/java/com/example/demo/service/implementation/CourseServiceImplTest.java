@@ -6,6 +6,7 @@ import com.example.demo.dto.response.CourseResponseDTO;
 import com.example.demo.entity.palestra.Course;
 import com.example.demo.entity.palestra.Customer;
 import com.example.demo.entity.palestra.Room;
+import com.example.demo.entity.palestra.Trainer;
 import com.example.demo.exception_handling.palestra.exceptions.CourseHasSubscribersException;
 import com.example.demo.exception_handling.palestra.exceptions.CourseNotFoundException;
 import com.example.demo.exception_handling.palestra.exceptions.RoomNotFoundException;
@@ -13,6 +14,7 @@ import com.example.demo.mapper.palestra.CourseMapper;
 import com.example.demo.mapper.palestra.RoomMapper;
 import com.example.demo.repository.palestra.CourseRepository;
 import com.example.demo.repository.palestra.RoomRepository;
+import com.example.demo.repository.palestra.TrainerRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,7 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -41,6 +44,9 @@ class CourseServiceImplTest {
 
     @Mock
     private RoomMapper roomMapper;
+
+    @Mock
+    private TrainerRepository trainerRepository;
 
     @InjectMocks
     private CourseServiceImpl courseService;
@@ -100,10 +106,17 @@ class CourseServiceImplTest {
 
         CourseRequestDTO courseRequestDTO = new CourseRequestDTO();
         courseRequestDTO.setName("bodybuilding");
+        courseRequestDTO.setTrainerName("Mario");
+        courseRequestDTO.setRoomName("Sala A");
+
+        Trainer trainer = new Trainer();
+        Room room = new Room();
 
         when(courseMapper.requestDTOToEntity(courseRequestDTO)).thenReturn(course);
         when(courseRepository.save(course)).thenReturn(savedCourse);
         when(courseMapper.entityToResponseDTO(savedCourse)).thenReturn(courseResponseDTO);
+        when(trainerRepository.findByFirstname("Mario")).thenReturn(Optional.of(trainer));
+        when(roomRepository.findByName("Sala A")).thenReturn(Optional.of(room));
 
         CourseResponseDTO result = courseService.save(courseRequestDTO);
         assertEquals("bodybuilding", result.getName());

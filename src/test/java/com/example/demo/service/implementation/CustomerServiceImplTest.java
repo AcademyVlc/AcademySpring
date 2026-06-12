@@ -231,8 +231,6 @@ class CustomerServiceImplTest {
         when(courseRepository.findById(courseId))
                 .thenReturn(Optional.of(course));
 
-        when(courseRepository.existsById(courseId))
-                .thenReturn(true);
 
         when(customerRepository.save(customer))
                 .thenReturn(customer);
@@ -244,7 +242,6 @@ class CustomerServiceImplTest {
 
         verify(customerRepository).findById(customerId);
         verify(courseRepository).findById(courseId);
-        verify(courseRepository).existsById(courseId);
         verify(customerRepository).save(customer);
     }
 

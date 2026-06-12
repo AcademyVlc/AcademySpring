@@ -7,11 +7,14 @@ import com.example.demo.dto.response.ErrorResponseDTO;
 import com.example.demo.exception_handling.palestra.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice(assignableTypes = {CustomerController.class, CourseController.class, TrainerController.class})
 public class PalestraExceptionHandler {
@@ -135,6 +138,20 @@ public class PalestraExceptionHandler {
         return ResponseEntity
                 .status(errorResponseDTO.getStatus())
                 .body(errorResponseDTO);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> handleValidationException(MethodArgumentNotValidException ex) {
+
+        String errorMessage = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(FieldError::getDefaultMessage)
+                .collect(Collectors.joining("\n"));
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(errorMessage);
     }
 
 }

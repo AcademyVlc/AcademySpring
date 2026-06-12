@@ -18,6 +18,8 @@ public interface TrainerService {
 
     String deletedById(Integer id);
 
+    TrainerResponseDTO findByFirstame(String trainerName);
+
     // Trova i corsi che fa un trainer
     List<CourseResponseDTO> seeTrainerCourses(Integer trainerId);
 

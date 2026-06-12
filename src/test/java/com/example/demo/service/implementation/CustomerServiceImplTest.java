@@ -12,6 +12,7 @@ import com.example.demo.mapper.palestra.TrainerMapper;
 import com.example.demo.repository.palestra.CourseRepository;
 import com.example.demo.repository.palestra.CustomerRepository;
 import com.example.demo.repository.palestra.TrainerRepository;
+import org.apache.coyote.BadRequestException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -103,7 +104,7 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void save() {
+    void save() throws BadRequestException {
 
         Customer customer = new Customer();
         Customer savedCustomer = new Customer();

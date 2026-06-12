@@ -16,14 +16,21 @@ import com.example.demo.repository.palestra.CourseRepository;
 import com.example.demo.repository.palestra.CustomerRepository;
 import com.example.demo.repository.palestra.TrainerRepository;
 import com.example.demo.service.abstraction.CustomerService;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +48,12 @@ public class CustomerServiceImpl implements CustomerService {
     private final TrainerRepository trainerRepository;
     private final TrainerMapper trainerMapper;
 
+    // Il Validator è un oggetto che serve a controllare manualmente le annotation di validazione
+    private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
+    // Il logger serve a stampare informazioni (log) nella console dell'applicazione
+    private final Logger logger = LogManager.getLogger(CustomerServiceImpl.class);
+
     @Override
     public List<CustomerResponseDTO> findAll() {
         List<Customer> customers = customerRepository.findAll();
@@ -54,9 +67,24 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerResponseDTO save(CustomerRequestDTO customerRequestDTO) {
+    public CustomerResponseDTO save(CustomerRequestDTO customerRequestDTO) throws BadRequestException{
         Customer customer = customerMapper.requestDTOToEntity(customerRequestDTO);
+
+        // "Controlla se questo oggetto Customer rispetta le annotazioni @NotBlank, @Pattern ecc"
+        // -> se trova errori, li mette dentro violations
+        Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
+
+        if (!violations.isEmpty()){
+            String errorMessages = violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.joining("\n"));
+            logger.error(errorMessages);
+            throw new BadRequestException(errorMessages);
+            // Se ci sono errori di validazione, prendi tutti i messaggi, uniscili in una stringa
+            // -> scrivili nei log, blocca il salvataggio lanciando BadRequestException
+        }
+
         Customer savedCustomer = customerRepository.save(customer);
+        // Meglio aggiungere l'id, cosi so sempre a quale customer mi riferisco
+        logger.info("Customer saved succesfully with id {}", savedCustomer.getId());
         return customerMapper.entityToResponseDTO(savedCustomer);
     }
 
@@ -70,15 +98,18 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setBirthdate(customerRequestDTO.getBirthdate());
 
         Customer savedCustomer = customerRepository.save(customer);
+        logger.info("Customer updated succesfully with id {}", savedCustomer.getId());
         return customerMapper.entityToResponseDTO(savedCustomer);
     }
 
     @Override
     public String deletedById(Integer id) {
         if (!customerRepository.existsById(id)) {
+            logger.error("Customer not found with id {}", id);
             throw new CustomerNotFoundException("Customer not founded with id - " + id);
         }
         customerRepository.deleteById(id);
+        logger.info("Customer deleted succesfully with id {}", id);
         return "Deleted customer with id - " + id;
     }
 
@@ -99,13 +130,15 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new NoSuchElementException("Customer not found"));
         Course course = courseRepository.findById(courseId).orElseThrow(() -> new NoSuchElementException("Course not found"));
 
-        if (!courseRepository.existsById(courseId)) {
+        if (!customer.getCourses().contains(course)) {
+            logger.error("Customer with id {} is not subscribed to course with id {}", customerId, courseId);
             throw new NoSuchElementException("Customer is not subscribed to this course");
         }
 
         customer.getCourses().remove(course);
 
         Customer savedCustomer = customerRepository.save(customer);
+        logger.info("Course with id {} deleted from Customer with id {}", courseId, customerId);
         return "Course deleted from customer with id - " + customerId;
     }
 
@@ -127,11 +160,13 @@ public class CustomerServiceImpl implements CustomerService {
 
         // Evito la NPE di subscription nel caso non esistesse
         if (subscription == null) {
+            logger.error("Subscription not found");
             throw new SubscriptionNotFoundException("Subscription not found");
         }
 
         // Valuto se è ancora attiva l'iscrizione
         if (subscription.getEndDate().isBefore(LocalDate.now())) {
+            logger.error("Subscription is not active");
             throw new RuntimeException("Subscription is not active");
         }
 
@@ -140,12 +175,14 @@ public class CustomerServiceImpl implements CustomerService {
 
         // Controllo che non sia già iscritto
         if (customers.contains(customer)) {
+            logger.error("Customer is already subscribe to this course");
             throw new RuntimeException("Customer is already subscribed to this course");
         }
 
         customer.getCourses().add(course);
 
         Customer savedCustomer = customerRepository.save(customer);
+        logger.info("Customer with id {} subscribe to course with id {}", customerId, courseId);
 
         return customerMapper.entityToResponseDTO(savedCustomer);
     }
@@ -157,6 +194,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         Room room = course.getRoom();
         if (room == null) {
+            logger.error("Room not exist");
             throw new RuntimeException("Room not exist");
         }
 
@@ -166,11 +204,13 @@ public class CustomerServiceImpl implements CustomerService {
         Integer result = capacity - size;
 
         if (result <= 0) {
+            logger.error("Room is full");
             throw new RuntimeException("Room is full!");
         }
 
         customer.getCourses().add(course);
         Customer savedCustomer = customerRepository.save(customer);
+        logger.info("Customer with id {} subscribe to course with id {}", customerId, courseId);
         return customerMapper.entityToResponseDTO(savedCustomer);
     }
 

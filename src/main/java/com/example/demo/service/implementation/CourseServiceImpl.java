@@ -5,14 +5,13 @@ import com.example.demo.dto.response.CourseCustomerCountDTO;
 import com.example.demo.dto.response.CourseResponseDTO;
 import com.example.demo.entity.palestra.Course;
 import com.example.demo.entity.palestra.Room;
-import com.example.demo.exception_handling.palestra.exceptions.CourseHasSubscribersException;
-import com.example.demo.exception_handling.palestra.exceptions.CourseNotFoundException;
-import com.example.demo.exception_handling.palestra.exceptions.RoomFullException;
-import com.example.demo.exception_handling.palestra.exceptions.RoomNotFoundException;
+import com.example.demo.entity.palestra.Trainer;
+import com.example.demo.exception_handling.palestra.exceptions.*;
 import com.example.demo.mapper.palestra.CourseMapper;
 import com.example.demo.mapper.palestra.RoomMapper;
 import com.example.demo.repository.palestra.CourseRepository;
 import com.example.demo.repository.palestra.RoomRepository;
+import com.example.demo.repository.palestra.TrainerRepository;
 import com.example.demo.service.abstraction.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,6 +30,8 @@ public class CourseServiceImpl implements CourseService {
     private final RoomRepository roomRepository;
     private final RoomMapper roomMapper;
 
+    private final TrainerRepository trainerRepository;
+
     @Override
     public List<CourseResponseDTO> findAll() {
         List<Course> courses = courseRepository.findAll();
@@ -45,8 +46,20 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseResponseDTO save(CourseRequestDTO courseRequestDTO) {
+
         Course course = courseMapper.requestDTOToEntity(courseRequestDTO);
+
+        Trainer trainer = trainerRepository.findByFirstname(courseRequestDTO.getTrainerName())
+                .orElseThrow(() -> new TrainerNotFoundException("Trainer not found"));
+
+        Room room = roomRepository.findByName(courseRequestDTO.getRoomName())
+                .orElseThrow(() -> new RoomNotFoundException("Room not found"));
+
+        course.setTrainer(trainer);
+        course.setRoom(room);
+
         Course savedCourse = courseRepository.save(course);
+
         return courseMapper.entityToResponseDTO(savedCourse);
     }
 

@@ -5,6 +5,7 @@ import com.example.demo.dto.response.CourseResponseDTO;
 import com.example.demo.dto.response.CourseRevenueResponseDTO;
 import com.example.demo.dto.response.CustomerResponseDTO;
 import com.example.demo.entity.palestra.Customer;
+import org.apache.coyote.BadRequestException;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface CustomerService {
 
     CustomerResponseDTO findById(Integer id);
 
-    CustomerResponseDTO save(CustomerRequestDTO customerRequestDTO);
+    CustomerResponseDTO save(CustomerRequestDTO customerRequestDTO) throws BadRequestException;
 
     CustomerResponseDTO update(Integer id, CustomerRequestDTO customerRequestDTO);
 

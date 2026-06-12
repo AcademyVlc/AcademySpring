@@ -5,7 +5,9 @@ import com.example.demo.dto.response.CourseResponseDTO;
 import com.example.demo.dto.response.CourseRevenueResponseDTO;
 import com.example.demo.dto.response.CustomerResponseDTO;
 import com.example.demo.service.abstraction.CustomerService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,8 +35,9 @@ public class CustomerController {
         return ResponseEntity.ok(customer);
     }
 
+    // Con @Valid Spring valida automaticamente il DTO --> Il REQUEST DTO naturalmente
     @PostMapping
-    public ResponseEntity<CustomerResponseDTO> save(@RequestBody CustomerRequestDTO customerRequestDTO) {
+    public ResponseEntity<CustomerResponseDTO> save(@Valid @RequestBody CustomerRequestDTO customerRequestDTO) throws BadRequestException {
         CustomerResponseDTO savedCustomer = customerService.save(customerRequestDTO);
         return ResponseEntity.ok(savedCustomer);
     }

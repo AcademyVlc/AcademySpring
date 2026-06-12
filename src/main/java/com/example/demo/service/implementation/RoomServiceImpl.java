@@ -60,4 +60,10 @@ public class RoomServiceImpl implements RoomService {
         roomRepository.deleteById(id);
         return "Deleted room with id - " + id;
     }
+
+    @Override
+    public RoomResponseDTO findByName(String roomName) {
+        Room room = roomRepository.findByName(roomName).orElseThrow(() -> new RoomNotFoundException("Room not found with name: " + roomName));
+        return roomMapper.entityToResponseDTO(room);
+    }
 }

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -65,6 +66,12 @@ public class TrainerServiceImpl implements TrainerService {
 
         trainerRepository.deleteById(id);
         return "Deleted trainer with id - " + id;
+    }
+
+    @Override
+    public TrainerResponseDTO findByFirstame(String trainerName) {
+        Trainer trainer = trainerRepository.findByFirstname(trainerName).orElseThrow(() -> new TrainerNotFoundException("Trainer not found with name: " + trainerName));
+        return trainerMapper.entityToResponseDTO(trainer);
     }
 
     @Override
